@@ -2,35 +2,161 @@
 
 @plugin 'tailwindcss-animate';
 
-@tailwind utilities;
-
-@import "./themes/variant-a.css";
+@import './themes/variant-a.css';
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+  /* =====================================================================
+     EIDOSMEDIA DESIGN SYSTEM TOKENS
+     Every color, font size, spacing, radius and layout width used in the
+     components must come from here. Do not use arbitrary values
+     (e.g. `p-[18px]`, `text-[#333]`) or raw Tailwind palette colors.
+     ===================================================================== */
+
   /* FONTS */
-  --font-gabarito: "Gabarito", "sans-serif";
-  --font-epilogue: "Epilogue", "sans-serif";
-  --font-georgia: "Georgia", "serif";
-  --font-source-sans: "Source Sans 3", sans-serif;
+  --font-nunito-sans: 'Nunito Sans', sans-serif;
+  --font-epilogue: 'Epilogue', 'sans-serif';
+  --font-source-sans: 'Source Sans 3', sans-serif;
 
-  /* COLORS */
-  --color-primary: #3969AC;
-  --color-primary-dark: #1D3557;
-  --color-primary-light: #83A5D6;
-  --color-primary-lightest: #D5E1F0;
+  /* ---------------------------------------------------------------------
+     COLORS — 02. System Color Palettes
+     --------------------------------------------------------------------- */
 
-  --color-neutral-primary: #2F2F2F;
-  --color-neutral-light-2: #999999;
-  --color-neutral-light: #B0B0B0;
-  --color-neutral-lightest: #FFFFFF;
+  /* Corporate primary core (nav, primary CTA, text, lines, backgrounds) */
+  --color-blue: #4353f0;
+  --color-blue-dark: #3543cf;
+  --color-ink: #1b1d36;
+  --color-ink-deep: #12142a;
+  --color-copy: #27282b; /* DS "Body": default text color */
+  --color-line: #e2e4f0;
+  --color-surface: #eef0f8; /* DS "Bg light" */
 
-  --color-feedback-red: #D22D2D;
-  --color-feedback-red-dark: #8B1E1E;
+  /* Finance secondary (finance hero, data, badges) */
+  --color-finance-purple: #5b22b6;
+  --color-finance-purple-light: #7c3aed;
+  --color-finance-violet: #6d35b6;
+  --color-finance-tiffany: #5eead4;
+  --color-finance-mint: #8ef0ca;
+
+  /* Media secondary (media hero, data, badges) */
+  --color-media-violet: #6d35b5;
+  --color-media-plum: #a63a93;
+  --color-media-red: #e23a5c;
+
+  /* Semantic aliases: use these in components */
+  --color-primary: var(--color-blue);
+  --color-primary-hover: var(--color-blue-dark);
+  --color-primary-active: var(--color-blue-dark);
+  --color-primary-dark: var(--color-ink);
+  --color-primary-light: color-mix(in srgb, var(--color-blue) 70%, white);
+  --color-primary-lightest: color-mix(in srgb, var(--color-blue) 12%, white); /* badges, soft fills */
+
+  --color-heading: var(--color-ink); /* titles */
+  --color-copy-muted: color-mix(in srgb, var(--color-copy) 64%, white); /* secondary text, dates, captions */
+  --color-copy-subtle: color-mix(in srgb, var(--color-copy) 44%, white); /* placeholders, disabled */
+  --color-canvas: #ffffff; /* page and card background */
+  --color-inverse: #ffffff; /* text and icons on dark/colored surfaces */
+  --color-surface-muted: color-mix(in srgb, var(--color-surface) 50%, white); /* very light section band */
+  --color-overlay: color-mix(in srgb, var(--color-ink-deep) 60%, transparent); /* modal backdrop */
+  --color-search-match: color-mix(in srgb, var(--color-primary) 20%, transparent); /* in-page search matches */
+  --color-search-match-current: var(--color-primary); /* in-page search current match */
+  --color-icon-gradient-from: color-mix(in srgb, var(--color-blue) 55%, white); /* soft gradient icons */
+  --color-icon-gradient-to: color-mix(in srgb, var(--color-finance-purple-light) 35%, white);
+
+  /* Badge tones (labels, categories): text color + 16% tinted background. Usage: <Badge tone="blue | green | indigo | rose | sky | mint"> */
+  --color-badge-blue: #3b82f6;
+  --color-badge-blue-soft: color-mix(in srgb, var(--color-badge-blue) 16%, transparent);
+  --color-badge-green: #31ba90;
+  --color-badge-green-soft: color-mix(in srgb, var(--color-badge-green) 16%, transparent);
+  --color-badge-indigo: #4f47e5;
+  --color-badge-indigo-soft: color-mix(in srgb, var(--color-badge-indigo) 16%, transparent);
+  --color-badge-rose: #f32f67;
+  --color-badge-rose-soft: color-mix(in srgb, var(--color-badge-rose) 16%, transparent);
+  --color-badge-sky: #4b8ef9;
+  --color-badge-sky-soft: color-mix(in srgb, var(--color-badge-sky) 16%, transparent);
+  --color-badge-mint: #4ad18d;
+  --color-badge-mint-soft: color-mix(in srgb, var(--color-badge-mint) 16%, transparent);
+
+  --color-neutral-primary: var(--color-copy);
+  --color-neutral-light-2: var(--color-copy-subtle);
+  --color-neutral-light: var(--color-line);
+  --color-neutral-lightest: var(--color-inverse);
+
+  --color-feedback-red: var(--color-media-red);
+  --color-feedback-red-dark: color-mix(in srgb, var(--color-media-red) 70%, black);
 
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
+
+  /* ---------------------------------------------------------------------
+     TYPOGRAPHY — 03. Typographic scale (desktop), Nunito Sans
+     Usage: text-h1 | text-h2 | text-h3 | text-lead | text-body | text-body-sm | text-caption | text-label
+     --------------------------------------------------------------------- */
+  --text-h1: 3rem; /* 48 / 900 — hero */
+  --text-h1--line-height: 1.12;
+  --text-h1--font-weight: 900;
+  --text-h2: 2.1875rem; /* 35 / 800 — section */
+  --text-h2--line-height: 1.2;
+  --text-h2--font-weight: 800;
+  --text-h3: 1.5rem; /* 24 / 800 — card title */
+  --text-h3--line-height: 1.24;
+  --text-h3--font-weight: 800;
+  --text-lead: 1.25rem; /* 20 — lead paragraph */
+  --text-lead--line-height: 1.44;
+  --text-body: 1rem; /* 16 — body */
+  --text-body--line-height: 1.52;
+  --text-body-sm: 0.875rem; /* 14 — UI text, meta, nav (not in DS, derived) */
+  --text-body-sm--line-height: 1.44;
+  --text-caption: 0.75rem; /* 12 regular — dates, breadcrumbs, fine print (not in DS, derived) */
+  --text-caption--line-height: 1.44;
+  --text-label: 0.75rem; /* 12 — eyebrow / label / badge */
+  --text-label--line-height: 1.32;
+  --text-label--letter-spacing: 0.08em;
+  --text-label--font-weight: 700;
+
+  /* ---------------------------------------------------------------------
+     SPACING — 4px grid. Use for padding, margin, gap, space-*, inset.
+     Usage: p-space-md, gap-space-sm, mt-space-2xl, ...
+     --------------------------------------------------------------------- */
+  --spacing-space-3xs: 4px;
+  --spacing-space-2xs: 8px;
+  --spacing-space-xs: 12px;
+  --spacing-space-sm: 16px;
+  --spacing-space-md: 24px;
+  --spacing-space-lg: 32px;
+  --spacing-space-xl: 40px;
+  --spacing-space-2xl: 48px;
+  --spacing-space-3xl: 64px;
+  --spacing-space-4xl: 80px;
+  --spacing-space-5xl: 96px;
+  --spacing-space-6xl: 128px;
+  --spacing-reading-inset: 208px; /* side inset of the article reading column (xl) */
+  --spacing-article-aside: 180px; /* news article meta column (date, share) */
+  --spacing-article-indent: calc(var(--spacing-article-aside) + var(--spacing-space-xl)); /* body aligned to media */
+  --spacing-article-indent-box: calc(
+    var(--spacing-article-indent) - var(--spacing-space-md)
+  ); /* boxed sections, slightly outdented */
+
+  /* ---------------------------------------------------------------------
+     BORDER RADIUS — multiples of 4
+     --------------------------------------------------------------------- */
+  --radius-sm: 4px; /* chips, small inputs */
+  --radius-md: 8px; /* buttons, inputs, thumbnails */
+  --radius-lg: 12px; /* small cards, dropdowns */
+  --radius-xl: 16px; /* cards, images */
+  --radius-2xl: 24px; /* large bands, hero cards */
+  --radius-3xl: 32px;
+  --radius-card: var(--radius-xl); /* standard radius for all cards and boxes */
+
+  /* ---------------------------------------------------------------------
+     LAYOUT WIDTHS — usage: max-w-page, max-w-content, max-w-article, ...
+     --------------------------------------------------------------------- */
+  --container-page: 1128px; /* main page grid: 1080px content + 2 × space-md gutter (use with px-space-md) */
+  --container-content: 1080px; /* content column (home sections, article body with sidebar) */
+  --container-dropdown: 1260px; /* navbar mega menu panel; its inner content is max-w-page (1080px) */
+  --container-article: 960px; /* reading column + media */
+  --container-reading: 600px; /* single text column */
 
   /* INSPECT ITEMS TOOLBAR */
   --color-accent: hsl(var(--accent));
@@ -55,12 +181,113 @@
   ::before,
   ::backdrop,
   ::file-selector-button {
-    border-color: var(--color-gray-200, currentColor);
+    border-color: var(--color-line, currentColor);
+  }
+
+  /* In-page search (InPageSearch): every match + the current one */
+  ::highlight(in-page-search) {
+    background-color: var(--color-search-match);
+    color: var(--color-heading);
+  }
+  ::highlight(in-page-search-current) {
+    background-color: var(--color-search-match-current);
+    color: var(--color-inverse);
   }
 }
 
 @utility text-balance {
   text-wrap: balance;
+}
+
+@utility container {
+  max-width: 1600px;
+  margin-inline: auto;
+}
+
+/* Breaks out of the centered page column to span the full viewport width (the page wrapper clips overflow-x) */
+@utility full-bleed {
+  margin-inline: calc(50% - 50vw);
+}
+
+/* GRADIENTS — 02. System Color Palettes */
+@utility bg-finance-gradient {
+  background: linear-gradient(90deg, var(--color-finance-purple-light) 0%, var(--color-finance-tiffany) 100%);
+}
+@utility bg-finance-soft {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-finance-purple-light) 12%, white) 0%,
+    color-mix(in srgb, var(--color-finance-tiffany) 12%, white) 100%
+  );
+}
+@utility bg-media-gradient {
+  background: linear-gradient(
+    90deg,
+    var(--color-media-violet) 0%,
+    var(--color-media-plum) 50%,
+    var(--color-media-red) 100%
+  );
+}
+@utility bg-media-soft {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-blue) 12%, white) 0%,
+    color-mix(in srgb, var(--color-media-violet) 12%, white) 50%,
+    color-mix(in srgb, var(--color-media-plum) 12%, white) 100%
+  );
+}
+/* Corporate: blue hub shared by both verticals */
+@utility bg-corporate-soft {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-blue) 10%, white) 0%,
+    color-mix(in srgb, var(--color-finance-purple-light) 8%, white) 50%,
+    color-mix(in srgb, var(--color-finance-tiffany) 10%, white) 100%
+  );
+}
+/* Legacy names kept for existing components */
+@utility bg-hero {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-blue) 65%, transparent) 0%,
+    color-mix(in srgb, var(--color-media-violet) 65%, transparent) 50%,
+    color-mix(in srgb, var(--color-media-red) 65%, transparent) 100%
+  );
+}
+@utility bg-neon {
+  background: linear-gradient(90deg, var(--color-blue) 0%, var(--color-media-violet) 50%, var(--color-media-red) 100%);
+}
+@utility bg-finance {
+  background: linear-gradient(
+    270deg,
+    color-mix(in srgb, var(--color-finance-tiffany) 50%, transparent) 0%,
+    color-mix(in srgb, var(--color-finance-purple-light) 50%, transparent) 100%
+  );
+}
+@utility bg-media {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-blue) 70%, transparent) 0%,
+    color-mix(in srgb, var(--color-media-violet) 70%, transparent) 50%,
+    color-mix(in srgb, var(--color-media-red) 70%, transparent) 100%
+  );
+}
+
+/* Media shape: rounded corners with a square bottom-left corner (DS image style, use on every image) */
+@utility rounded-media {
+  border-radius: var(--radius-xl) var(--radius-xl) var(--radius-xl) 0;
+}
+@utility rounded-media-sm {
+  border-radius: var(--radius-md) var(--radius-md) var(--radius-md) 0;
+}
+
+/* Eyebrow / label / badge text (12 / uppercase) */
+@utility eyebrow {
+  font-size: var(--text-label);
+  line-height: var(--text-label--line-height);
+  letter-spacing: var(--text-label--letter-spacing);
+  font-weight: var(--text-label--font-weight);
+  text-transform: uppercase;
 }
 
 @layer utilities {
@@ -82,7 +309,7 @@
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
+    --foreground: 228 7% 16%;
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;
     --accent: 0 0% 96.1%;
@@ -97,84 +324,107 @@
 /* BASE STYLES */
 @layer base {
   * {
-    @apply font-georgia text-sm leading-[134%] tracking-normal;
+    @apply font-nunito-sans tracking-normal;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-body text-copy;
+  }
+  a {
+    color: inherit;
   }
 }
 
-/* TYPOGRAPHY */
-h1, h1 p {
-  @apply font-gabarito font-semibold text-[2.5rem] leading-[124%] tracking-normal;
-}
-h2, h2 p, h2 span {
-  @apply font-gabarito font-semibold text-3xl leading-[124%] tracking-normal;
-}
-h3, h3 p, h3 span {
-  @apply font-gabarito font-semibold text-xl leading-[120%] tracking-normal;
-}
-h4, h4 p {
-  @apply font-gabarito font-semibold text-base leading-[120%] tracking-normal;
-}
-h5, h5 p {
-  @apply font-gabarito font-semibold text-sm leading-[120%] tracking-normal;
-}
-h6, h6 p {
-  @apply font-gabarito font-semibold text-xs leading-[120%] tracking-normal;
-}
+@layer base {
+  /* TYPOGRAPHY — mapped to the DS scale (see --text-* tokens) */
+  h1,
+  h1 p {
+    @apply font-nunito-sans text-h1 text-heading;
+  }
+  h2,
+  h2 p,
+  h2 span {
+    @apply font-nunito-sans text-h2 text-heading;
+  }
+  h3,
+  h3 p,
+  h3 span {
+    @apply font-nunito-sans text-h3 text-heading;
+  }
+  h4,
+  h4 p {
+    @apply font-nunito-sans text-lead font-bold text-heading;
+  }
+  h5,
+  h5 p {
+    @apply font-nunito-sans text-body font-bold text-heading;
+  }
+  h6,
+  h6 p {
+    @apply font-nunito-sans text-body-sm font-bold text-heading;
+  }
 
-.subhead1, .subhead1 p {
-  @apply font-epilogue font-bold text-sm leading-[114%] tracking-[3%];
-}
-.subhead2, .subhead2 p {
-  @apply font-epilogue font-bold text-xs leading-[114%] tracking-[3%];
-}
+  .eyebrow-text,
+  .subhead1,
+  .subhead1 p,
+  .subhead2,
+  .subhead2 p {
+    @apply eyebrow;
+  }
 
-.body-large, .body-large p {
-  @apply font-georgia text-base leading-[144%] tracking-normal;
-}
-.body-medium, .body-medium p {
-  @apply font-georgia text-sm leading-[134%] tracking-normal;
-}
-.body-small, .body-small p {
-  @apply font-georgia text-xs leading-[134%] tracking-normal;
-}
+  .lead,
+  .lead p {
+    @apply font-nunito-sans text-lead;
+  }
+  .body-large,
+  .body-large p {
+    @apply font-nunito-sans text-body;
+  }
+  .body-medium,
+  .body-medium p {
+    @apply font-nunito-sans text-body-sm;
+  }
+  .body-small,
+  .body-small p {
+    @apply font-nunito-sans text-caption;
+  }
 
-.author-medium, .author-medium p {
-  @apply font-epilogue text-sm leading-[124%] tracking-[3%];
-}
-.author-small, .author-small p {
-  @apply font-epilogue text-xs leading-[124%] tracking-[3%];
+  .author-medium,
+  .author-medium p {
+    @apply font-nunito-sans text-body-sm;
+  }
+  .author-small,
+  .author-small p {
+    @apply font-nunito-sans text-caption;
+  }
 }
 
 /* ICONS */
 .icon-xl {
-  @apply text-[32px];
+  @apply text-h2;
 }
 .icon-lg {
   @apply text-2xl;
 }
 .icon-md {
-  @apply text-base;
+  @apply text-body;
 }
 .icon-sm {
-  @apply text-xs;
+  @apply text-label;
 }
 .icon-xs {
-  @apply text-[8px];
+  @apply text-label;
 }
 
 /* OTHERS */
 .liveblog-posts {
   article {
-    @apply flex flex-col gap-2;
+    @apply flex flex-col gap-space-2xs;
   }
   h1 {
-    @apply font-gabarito font-semibold text-xl leading-[120%] tracking-normal;
+    @apply font-nunito-sans text-h3;
   }
   figure {
-    @apply my-2;
+    @apply my-space-2xs;
   }
 }
 
@@ -183,7 +433,7 @@ h6, h6 p {
   .switch-btn {
     @apply w-11 h-6 bg-gray-200 rounded-full
         peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-(--color-toolbar-background) peer-checked:after:translate-x-full peer-checked:after:border-(--color-toolbar-background) peer-checked:bg-(--color-switch-checked-background)
-        after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-(--color-toolbar-background) after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all
+        after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-(--color-toolbar-background) after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all;
   }
   /* Style for webpages */
   .banner-container {
@@ -194,13 +444,11 @@ h6, h6 p {
     animation: scroll 20s linear infinite;
   }
   .banner-item {
-    @apply flex items-center px-4 py-2 mx-4 rounded-md;
+    @apply flex items-center px-space-sm py-space-2xs mx-space-sm rounded-md;
     /* If you want a fixed width, uncomment the next line */
     /* min-width: 200px; */
   }
 }
-
-
 
 @keyframes scroll {
   0% {
@@ -217,26 +465,45 @@ h6, h6 p {
 }
 
 #loggedUserBar * {
-  @apply font-source-sans text-base
-
+  @apply font-source-sans text-base;
 }
 
 button {
-  @apply font-epilogue
+  @apply font-nunito-sans;
 }
 
-[data-type="article-xl"] {
+[data-type='article-xl'] {
   max-height: 470px;
 }
 
-[data-type="article-md"] {
+[data-type='article-md'] {
   max-height: 330px;
 }
 
-p {
-  a {
-    @apply text-base underline hover:text-primary;
-  }
+p a {
+  @apply text-primary underline;
+}
+p a:hover {
+  text-decoration-line: none;
+}
+
+h1 a,
+h2 a,
+h3 a,
+h4 a,
+h5 a,
+h6 a {
+  font-size: inherit !important;
+  line-height: inherit !important;
+  @apply text-primary underline;
+}
+h1 a:hover,
+h2 a:hover,
+h3 a:hover,
+h4 a:hover,
+h5 a:hover,
+h6 a:hover {
+  text-decoration-line: none;
 }
 
 nav {
@@ -269,39 +536,40 @@ ul ol {
 
 li,
 li li {
-  @apply text-base;
+  @apply text-body;
 }
 
 /* Multilevel nested unordered lists */
 ul ul {
-  @apply list-disc ml-6;
+  @apply list-disc ml-space-md;
 }
 ul ul ul {
-  @apply list-disc ml-6;
+  @apply list-disc ml-space-md;
 }
 ul ul ul ul {
-  @apply list-disc ml-6;
+  @apply list-disc ml-space-md;
 }
 
 /* Multilevel nested ordered lists */
 ol ol {
-  @apply list-[lower-alpha] ml-6;
+  @apply list-[lower-alpha] ml-space-md;
 }
 ol ol ol {
-  @apply list-[lower-roman] ml-6;
+  @apply list-[lower-roman] ml-space-md;
 }
 ol ol ol ol {
-  @apply list-[lower-roman] ml-6;
+  @apply list-[lower-roman] ml-space-md;
 }
 
 /* Mixed nested lists */
 ul ol,
 ol ul {
-  @apply ml-6;
+  @apply ml-space-md;
 }
 
-[data-panel="history"] {
-  ul, ol {
+[data-panel='history'] {
+  ul,
+  ol {
     @apply list-none;
   }
 }
@@ -323,7 +591,7 @@ ol ul {
 }
 
 .media-gallery-slides::-webkit-scrollbar-thumb {
-  @apply bg-black rounded-[10px];
+  @apply bg-ink rounded-md;
 }
 
 .media-gallery-slides::-webkit-scrollbar-track {
@@ -332,7 +600,7 @@ ol ul {
 
 .media-gallery-slide {
   scroll-snap-align: start;
-  @apply flex-shrink-0 w-full mr-12 rounded-[10px] bg-gray-100 relative flex justify-center items-center;
+  @apply flex-shrink-0 w-full mr-space-2xl rounded-md bg-surface relative flex justify-center items-center;
   transform-origin: center center;
   transform: scale(1);
   transition: transform 0.5s;
@@ -343,11 +611,11 @@ ol ul {
 }
 
 .media-gallery-slide figcaption {
-  @apply bg-black/75 text-white p-3 text-center absolute bottom-0 left-0 w-full m-0;
+  @apply bg-ink-deep/75 text-inverse p-space-xs text-center absolute bottom-0 left-0 w-full m-0;
 }
 
 .media-gallery-nav {
-  @apply inline-flex w-6 h-6 bg-white no-underline items-center justify-center rounded-full mr-0 mb-2 relative;
+  @apply inline-flex w-6 h-6 bg-inverse no-underline items-center justify-center rounded-full mr-0 mb-space-2xs relative;
 }
 
 .media-gallery-nav:active {
@@ -355,11 +623,11 @@ ol ul {
 }
 
 .media-gallery-nav:focus {
-  @apply bg-black text-white;
+  @apply bg-ink text-inverse;
 }
 
 .search-ask-about-selected-item {
-  @apply mt-2 ml-5 text-left list-none
+  @apply mt-space-2xs ml-space-md text-left list-none;
 }
 
 /* Don't need button navigation on browsers that support scroll-snap */
@@ -369,7 +637,7 @@ ol ul {
   }
 }
 
-[data-type="inline-media-group"] {
+[data-type='inline-media-group'] {
   .xsm-blockstyle-align-right {
     @apply justify-end;
   }
