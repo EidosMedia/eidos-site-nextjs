@@ -1,8 +1,47 @@
-import React from 'react';
-import { BaseModel, PageData } from '@eidosmedia/neon-frontoffice-ts-sdk';
+import { BaseModel, MenuItem, PageData } from '@eidosmedia/neon-frontoffice-ts-sdk';
 import Logo from './Logo';
-import { Instagram, Facebook, Twitter, Youtube } from 'lucide-react';
-import FooterMenu from './FooterMenu';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faFacebook,
+  faYoutube,
+  faLinkedin,
+  faXTwitter,
+  faInstagram,
+  faTiktok,
+  IconDefinition,
+} from '@fortawesome/free-brands-svg-icons';
+import FooterMenu, { FooterGroup } from './FooterMenu';
+
+const SOCIAL_ICONS: { pattern: RegExp; icon: IconDefinition }[] = [
+  { pattern: /facebook\.com/i, icon: faFacebook },
+  { pattern: /(twitter\.com|x\.com)/i, icon: faXTwitter },
+  { pattern: /linkedin\.com/i, icon: faLinkedin },
+  { pattern: /youtube\.com/i, icon: faYoutube },
+  { pattern: /instagram\.com/i, icon: faInstagram },
+  { pattern: /tiktok\.com/i, icon: faTiktok },
+];
+
+function getSocialIcon(value?: string) {
+  return SOCIAL_ICONS.find(({ pattern }) => value && pattern.test(value))?.icon;
+}
+
+const toLink = (item: MenuItem) => ({ label: item.label, href: item.url || item.ref || '#' });
+
+// Link groups of a footer column, in menu order: consecutive plain links share an untitled group,
+// each sub-group (e.g. "Financial Services" in the Navbar "Industries" item) becomes a titled group.
+function toGroups(items: MenuItem[] = []): FooterGroup[] {
+  const groups: FooterGroup[] = [];
+  for (const item of items) {
+    if (item.items?.length > 0) {
+      groups.push({ title: item.label, links: item.items.map(toLink) });
+    } else {
+      const last = groups[groups.length - 1];
+      if (last && !last.title) last.links.push(toLink(item));
+      else groups.push({ links: [toLink(item)] });
+    }
+  }
+  return groups;
+}
 
 export default async function Footer({ data }: { data: Partial<PageData<BaseModel>> }) {
   const siteName = data.siteData?.siteName || data.siteNode?.name;
@@ -15,104 +54,68 @@ export default async function Footer({ data }: { data: Partial<PageData<BaseMode
   }
 
   const menus = site.menus;
-  console.log('Menus:', menus);
-
-  // Helper to flatten children for links
-  function flattenLinks(items: any[]): any[] {
-    if (!Array.isArray(items)) return [];
-    return items.map(child => ({
-      label: child.label,
-      href: child.url || child.ref || '#',
-    }));
-  }
-
-  // Only consider the "Footer" menu
-  const footerMenu = menus?.Footer;
+  // Columns: the full Navbar menu, then the Footer menu (e.g. Legal & Compliance)
+  const columns: MenuItem[] = [...(menus?.Navbar?.items ?? []), ...(menus?.Footer?.items ?? [])];
+  const socialMenu = menus?.Social;
 
   return (
-    <div className="w-full">
-      {/* Blue line */}
-      <div className="w-full bg-primary mt-8 h-1.5 rounded" />
-      {/* Logo and site name */}
-      <div className="flex items-center space-x-2 py-4">
-        <Logo data={data} size="small" />
-        <span className="font-semibold text-lg">{data.siteNode?.name}</span>
-      </div>
-      {/* 70% - 30% split section */}
-      <div className="flex w-full">
-        <div className="w-[70%] p-4">
-          {/* Left 70% content */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {footerMenu?.items?.map((item: any, idx: number) => (
-              <FooterMenu key={item.ref || idx} url={item.url} title={item.label} links={flattenLinks(item.items)} />
-            ))}
+    <div
+      className="w-full py-space-2xl bg-primary-dark text-inverse"
+    >
+      <div className="max-w-page mx-auto px-space-md">
+        {/* Logo and site name */}
+        <div className="flex flex-col pb-space-md">
+          <div className="flex items-center mb-space-sm">
+            <Logo variant="white" />
           </div>
+          <p className="text-body-sm font-medium">
+            Eidosmedia, excellence in headless CMS and Enterprise content publishing systems
+          </p>
         </div>
-        {/* Vertical blue line */}
-        <div className="w-px bg-primary mx-2" />
-        <div className="w-[30%] p-4">
-          {/* Right 30% content */}
-          <div>
-            <div className="mb-6">
-              <div className="font-bold mb-2">
-                <a href="/about" className="hover:underline">
-                  About
-                </a>
-              </div>
-              <div className="font-bold mb-2">Account</div>
-              <ul className="space-y-3 pl-4 !list-none">
-                <li>
-                  <a href="#" className="hover:underline">
-                    Subscribe to Premium
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">
-                    Login to your Account
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">
-                    Create Account
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline">
-                    Subscribe to Newsletter
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <div className="font-bold mb-2">Follow {data.siteNode?.name}</div>
-              <ul className="list-none pl-0 space-y-3" style={{ listStyle: 'none', paddingLeft: 0 }}>
-                <li>
-                  <a href="#" className="hover:underline flex items-center space-x-2">
-                    <Instagram size={18} />
-                    <span>Instagram</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline flex items-center space-x-2">
-                    <Facebook size={18} />
-                    <span>Facebook</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline flex items-center space-x-2">
-                    <Twitter size={18} />
-                    <span>Twitter</span>
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:underline flex items-center space-x-2">
-                    <Youtube size={18} />
-                    <span>Youtube</span>
-                  </a>
-                </li>
-              </ul>
-            </div>
+        {/* All columns in one grid; on desktop one column per menu item (two for those with sub-groups), however many there are */}
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-none lg:grid-flow-col lg:auto-cols-fr md:gap-space-md">
+          {columns.map((item, idx) => {
+            const groups = toGroups(item.items);
+            return (
+              <FooterMenu
+                key={`${item.ref || item.label}-${idx}`}
+                url={item.url}
+                title={item.label}
+                groups={groups}
+                wide={groups.some(group => group.title)}
+              />
+            );
+          })}
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-space-2xl md:pt-space-md border-t-0 md:border-t border-inverse/20 flex flex-col md:flex-row md:items-center md:justify-between gap-space-sm">
+          <div className="flex items-center gap-space-2xs">
+            <Logo variant="white" size="small" />
+            <span className="text-caption md:text-body-sm text-inverse/60">
+              Copyright &copy; {new Date().getFullYear()} Eidosmedia S.p.A. - P.IVA IT11881420159 - All rights reserved.
+            </span>
           </div>
+          {(socialMenu?.items?.length ?? 0) > 0 && (
+            <div className="flex items-center gap-space-sm">
+              {socialMenu.items.map((item: MenuItem, idx: number) => {
+                const href = item.url || item.ref || '#';
+                const icon = getSocialIcon(href) || getSocialIcon(item.label);
+                if (!icon) return null;
+                return (
+                  <a
+                    key={item.ref || idx}
+                    href={href}
+                    aria-label={item.label}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FontAwesomeIcon icon={icon} className="text-lead hover:opacity-80 transition-opacity" />
+                  </a>
+                );
+              })}
+            </div>
+          )}
         </div>
       </div>
     </div>

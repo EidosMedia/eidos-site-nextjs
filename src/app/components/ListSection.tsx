@@ -12,10 +12,10 @@ const ListSection: React.FC<ListSectionProps> = async ({ data }) => {
   return (
     <>
       {linkedObjects.map((linkedObject: any, index: number) => (
-        <div key={linkedObject.id} className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <div key={linkedObject.id} className="grid grid-cols-1 md:grid-cols-2 gap-space-2xs">
           <div className="col-span-1">
             <Link className="no-underline" href={linkedObjects[`${index}`].url}>
-              <div className="p-4">
+              <div className="p-space-sm">
                 <img
                   alt="/static/img/nothumb.jpeg"
                   width="200"
@@ -23,15 +23,15 @@ const ListSection: React.FC<ListSectionProps> = async ({ data }) => {
                   decoding="async"
                   data-nimg="1"
                   src={linkedObject.links.system.mainPicture[0].dynamicCropsResourceUrls.Portrait_small}
-                  className="w-48 h-48 object-cover"
+                  className="w-48 h-48 object-cover rounded-media-sm"
                   style={{ color: 'transparent' }}
                 />
-                <div className="mt-2">
+                <div className="mt-space-2xs">
                   <div>
-                    <span className="text-base">{linkedObject.title}</span>
+                    <span className="text-body">{linkedObject.title}</span>
                   </div>
-                  <h6 className="text-xl font-semibold">{linkedObject.title}</h6>
-                  <p className="text-base">{linkedObject.summary}</p>
+                  <h6 className="text-h3">{linkedObject.title}</h6>
+                  <p className="text-body">{linkedObject.summary}</p>
                 </div>
               </div>
             </Link>
