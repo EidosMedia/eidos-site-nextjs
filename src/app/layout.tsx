@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { config } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css';
 import { WebVitals } from './components/utilities/WebVitals';
 import './globals.css';
+
+config.autoAddCss = false;
 import { ReloadListener } from './components/utilities/ReloadListener';
 import StoreProvider from './StoreProvider';
 import QueryProvider from './components/utilities/QueryProvider';
-
-const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'Neon POC site',
@@ -20,7 +21,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="scroll-smooth">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -33,9 +34,13 @@ export default async function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap"
           rel="stylesheet"
         ></link>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200..1000;1,200..1000&display=swap"
+          rel="stylesheet"
+        />
       </head>
 
-      <body className={inter.className}>
+      <body>
         <WebVitals />
         <ReloadListener />
         <StoreProvider>
