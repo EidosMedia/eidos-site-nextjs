@@ -1,41 +1,20 @@
-import { PageData } from '@eidosmedia/neon-frontoffice-ts-sdk';
-import { WebpageModel } from '@eidosmedia/neon-frontoffice-ts-sdk';
-import Navbar from '../components/Navbar';
-import Main from '../components/webpage/Main';
-import Context from '../components/webpage/Context';
-import Insight1 from '../components/webpage/Insight1';
-import Insight2 from '../components/webpage/Insight2';
+import PageLayout from '../components/PageLayout';
+import HeroSection from '../components/home/HeroSection';
+import CardsSection from '../components/home/CardsSection';
+import WhosUsingSection from '../components/home/WhosUsingSection';
+import CouldYouUseSection from '../components/home/CouldYouUseSection';
+import NewsAndViewsSection from '../components/home/NewsAndViewsSection';
+import StatsBannerSection from '../components/home/StatsBannerSection';
 
-type PageProps = {
-  data: PageData<WebpageModel>;
-};
-
-const HomeWebPage: React.FC<PageProps> = async ({ data }) => {
+export default async function HomeWebPage({ data }: { data: any }) {
   return (
-    <div className="container mx-auto">
-      <Navbar data={data}></Navbar>
-      <div className="grid grid-cols-1 gap-2">
-        <div className="col-span-1 relative group">
-          <Main data={data} />
-        </div>
-      </div>
-      <div className="grid grid-cols-1 gap-2">
-        <div className="col-span-1 relative group">
-          <Context data={data} />
-        </div>
-      </div>
-      <div className="grid grid-cols-1 gap-2">
-        <div className="col-span-1 relative group">
-          <Insight1 data={data} />
-        </div>
-      </div>
-      <div className="grid grid-cols-1 gap-2">
-        <div className="col-span-1 relative group">
-          <Insight2 data={data} />
-        </div>
-      </div>
-    </div>
+    <PageLayout data={data} fullWidthContent={true}>
+      <HeroSection />
+      <CardsSection />
+      <WhosUsingSection />
+      <CouldYouUseSection />
+      <NewsAndViewsSection />
+      <StatsBannerSection />
+    </PageLayout>
   );
-};
-
-export default HomeWebPage;
+}
