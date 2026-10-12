@@ -1,4 +1,5 @@
 import { ContentElement } from '@eidosmedia/neon-frontoffice-ts-sdk';
+import { isCmsOnlyAttribute } from '@/utilities/attributes';
 
 type FigureProps = {
   data: ContentElement;
@@ -38,9 +39,18 @@ const getDimensionsFromUrl = (url: string): { width: number; height: number } | 
   return null;
 };
 
-const Figure: React.FC<FigureProps> = ({ data, alt, format, ...props }) => {
+const Figure: React.FC<FigureProps & Record<string, any>> = ({ data, alt, format, softCrop, ...props }) => {
   const imageUrl = getSvgUrl(data) || getRasterUrl(data, format);
   const dimensions = imageUrl && getDimensionsFromUrl(imageUrl);
+
+  // Filter out any custom attributes that shouldn't be passed to the DOM element
+  const domProps = Object.keys(props).reduce((acc: any, key) => {
+    // Add any other attributes you want to filter out here
+    if (!['fileref', 'orientation', 'align'].includes(key) && !isCmsOnlyAttribute(key)) {
+      acc[key] = props[key];
+    }
+    return acc;
+  }, {});
 
   return (
     <>
@@ -50,7 +60,8 @@ const Figure: React.FC<FigureProps> = ({ data, alt, format, ...props }) => {
           alt={alt}
           width={dimensions ? dimensions.width : undefined}
           height={dimensions ? dimensions.height : undefined}
-          {...props}
+          {...domProps}
+          className={`rounded-media ${domProps.className ?? ''}`}
         />
       ) : (
         <p>No image available</p>

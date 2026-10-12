@@ -13,10 +13,8 @@ const Summary: React.FC<SummaryProps> = ({ data }) => {
   }
 
   return (
-    <div className="summary-container mb-8 pb-8 border-b border-gray-200">
-      <div className="leading-relaxed text-gray-700">
-        {renderContent(summaryContent, data, undefined, 'text-2xl')}
-      </div>
+    <div className="summary-container mb-space-lg pb-space-lg border-b border-line">
+      <div className="text-copy">{renderContent(summaryContent, data, undefined, 'text-lead')}</div>
     </div>
   );
 };

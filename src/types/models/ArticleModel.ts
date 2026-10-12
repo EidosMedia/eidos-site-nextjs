@@ -7,6 +7,9 @@ export type ArticleModel = {
       mainPicture: any[];
       teaserPicture?: any[];
     };
+    hyperlink?: {
+      image?: any[];
+    };
   };
   pubInfo: {
     publicationTime: string;

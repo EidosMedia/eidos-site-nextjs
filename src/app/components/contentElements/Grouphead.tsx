@@ -1,57 +1,52 @@
+import React from 'react';
 import { ArticleModel } from '@/types/models';
 import { findElementsInContentJson, renderContent } from '@/utilities/content';
-import { Link2, Bookmark, Share } from 'lucide-react';
-import { Button } from '../baseComponents/button';
+import { ChevronRight } from 'lucide-react';
+
+type BreadcrumbItem = { title: string; href: string };
 
 type GroupheadProps = {
   data: ArticleModel;
+  breadcrumbs?: BreadcrumbItem[];
+  theme?: 'light' | 'dark';
+  publicationDate?: string;
 };
 
-const Grouphead: React.FC<GroupheadProps> = ({ data }) => {
-  const publicationTime = data?.pubInfo?.publicationTime;
+const Grouphead: React.FC<GroupheadProps> = ({ data, breadcrumbs, theme = 'light', publicationDate }) => {
+  const isDark = theme === 'dark';
   return (
-    <div className="flex flex-col gap-4 mb-8">
-      {/* OVERHEAD & TITLE */}
-      {renderContent(
-        findElementsInContentJson(['grouphead'], data.files.content.data)[0],
-        data,
-        undefined,
-        'flex flex-col gap-4'
+    <div className="flex flex-col gap-space-sm">
+      {/* BREADCRUMB */}
+      {breadcrumbs && breadcrumbs.length > 0 && (
+        <div className={`flex items-center gap-space-2xs text-caption ${isDark ? 'text-inverse/80' : 'text-copy-muted'}`}>
+          {breadcrumbs.map((crumb, i) => (
+            <React.Fragment key={i}>
+              {i > 0 && <ChevronRight className={`w-3 h-3 flex-shrink-0 ${isDark ? 'text-inverse/60' : 'text-copy-subtle'}`} />}
+              <a
+                href={crumb.href}
+                className={`transition-colors ${isDark ? 'text-inverse underline hover:text-inverse/70' : 'hover:text-primary'}`}
+              >
+                {crumb.title}
+              </a>
+            </React.Fragment>
+          ))}
+        </div>
       )}
-      {/* SUMMARY */}
-      {renderContent(findElementsInContentJson(['summary'], data.files.content.data)[0], data)}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
-          {/* AUTHOR */}
-          <span className="author-medium font-semibold whitespace-pre">By </span>
-          {renderContent(
-            findElementsInContentJson(['byline'], data.files.content.data)[0],
-            data,
-            undefined,
-            'author-medium [&>p]:font-semibold'
-          )}
-          {/* DATE */}
-          <span className="author-medium font-semibold whitespace-pre">
-            {' '}
-            |{' '}
-            {new Date(publicationTime)
-              .toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-              .replace(/(\d+)(?=,)/, match => `${match}th`)}
-          </span>
-        </div>
-        <div className="flex items-center gap-2">
-          {/* ICONS */}
-          <Button variant="ghost">
-            <Share className="w-4 h-4" />
-          </Button>
-          <Button variant="ghost">
-            <Bookmark className="w-4 h-4" />
-          </Button>
-          <Button variant="ghost">
-            <Link2 className="w-4 h-4" />
-          </Button>
-        </div>
+      {/* OVERHEAD & TITLE */}
+      <div className={isDark ? '[&_*]:!text-inverse' : ''}>
+        {renderContent(
+          findElementsInContentJson(['grouphead'], data.files.content.data)[0],
+          data,
+          undefined,
+          'flex flex-col gap-space-sm',
+        )}
       </div>
+      {/* PUBLICATION DATE */}
+      {publicationDate && (
+        <p className={`text-body-sm font-medium ${isDark ? 'text-inverse/80' : 'text-copy-muted'}`}>
+          Published on {publicationDate}
+        </p>
+      )}
     </div>
   );
 };

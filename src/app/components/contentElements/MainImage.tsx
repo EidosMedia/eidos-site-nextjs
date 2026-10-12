@@ -11,15 +11,20 @@ type MainImageProps = {
 const getTeaserOrMainImageUrl = (data: ArticleModel, format: string, preferredImage?: string): string | undefined => {
   const teaserPicture = data?.links?.system?.teaserPicture?.[0];
   const teaserPictureFormat = teaserPicture?.dynamicCropsResourceUrls?.[format];
-  
+
   const mainPicture = data?.links?.system?.mainPicture?.[0];
   const mainPictureFormat = mainPicture?.dynamicCropsResourceUrls?.[format];
 
+  // Some content (e.g. Eidosmedia's Newsroom articles) links its cover photo as
+  // links.hyperlink.image instead of links.system.mainPicture/teaserPicture.
+  const hyperlinkImage = data?.links?.hyperlink?.image?.[0];
+  const hyperlinkImageFormat = hyperlinkImage?.dynamicCropsResourceUrls?.[format];
+
   if (preferredImage === 'main') {
-    return mainPictureFormat ?? teaserPictureFormat;
+    return mainPictureFormat ?? teaserPictureFormat ?? hyperlinkImageFormat;
   }
 
-  return teaserPictureFormat ?? mainPictureFormat;
+  return teaserPictureFormat ?? mainPictureFormat ?? hyperlinkImageFormat;
 };
 
 const MainImage: React.FC<MainImageProps> = ({ data, format, hideCaptions, preferredImage }) => {
@@ -29,8 +34,8 @@ const MainImage: React.FC<MainImageProps> = ({ data, format, hideCaptions, prefe
     <div>
       <div>
         {imageUrl ? (
-          <div className="flex flex-col gap-2 mb-8">
-            <img src={imageUrl} alt="" />
+          <div className="flex flex-col gap-space-2xs mb-space-lg">
+            <img src={imageUrl} alt="" className="rounded-media" />
             {!hideCaptions &&
               renderContent(findElementsInContentJson(['web-image-caption'], data.files.content.data)[0])}
           </div>

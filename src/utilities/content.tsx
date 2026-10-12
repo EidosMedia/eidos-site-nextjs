@@ -1,4 +1,6 @@
 import Figure from '@/app/components/contentElements/Figure';
+import { REACT_ATTRIBUTE_NAMES, isCmsOnlyAttribute } from '@/utilities/attributes';
+import Accordion from '@/app/components/baseComponents/Accordion';
 import { ContentElement, PageData } from '@eidosmedia/neon-frontoffice-ts-sdk';
 import Link from 'next/link';
 import { JSX, ReactNode } from 'react';
@@ -10,6 +12,22 @@ import ContentEditable from '@/app/components/utilities/ContentEditable';
  * @param elementNames
  * @param json
  */
+export function extractPlainText(node: ContentElement): string {
+  if (!node) return '';
+  if (node.nodeType === 'plainText') return node.value || '';
+  if (!node.elements) return '';
+  return node.elements.map(extractPlainText).join('');
+}
+
+export function slugify(text: string): string {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
+
 export function findElementsInContentJson(elementNames: string | string[], json: ContentElement): ContentElement[] {
   if ((Array.isArray(elementNames) && elementNames.includes(json?.nodeType)) || elementNames === json?.nodeType) {
     return [json];
@@ -150,24 +168,13 @@ const selectPreferredElement = (elements: ContentElement[], nodeTypePrefix: stri
 };
 
 export const buildAttributes = (node: ContentElement): Record<string, any> => {
-  // replace "class" with "className" and "stroke-linecap" with "strokeLinecap"
   return Object.fromEntries(
-    Object.entries(node.attributes || {}).map(([key, value]) => [
-      key === 'class'
-        ? 'className'
-        : key === 'stroke-linecap'
-          ? 'strokeLinecap'
-          : key === 'stroke-linejoin'
-            ? 'strokeLinejoin'
-            : key === 'stroke-width'
-              ? 'strokeWidth'
-              : key === 'tabindex'
-                ? 'tabIndex'
-                : key === 'contenteditable'
-                  ? 'contentEditable'
-                  : key,
-      key === 'style' ? convertStyleToObject(value) : value,
-    ]),
+    Object.entries(node.attributes || {})
+      .filter(([key]) => !isCmsOnlyAttribute(key))
+      .map(([key, value]) => [
+        REACT_ATTRIBUTE_NAMES[key] ?? key,
+        key === 'style' ? convertStyleToObject(value) : value,
+      ]),
   );
 };
 
@@ -214,9 +221,129 @@ export const renderContent = (
         </div>
       );
     case 'text':
+      const textElements: ReactNode[] = [];
+      const incomingElements = content.elements || [];
+
+      const isHeading = (elem: any) => /^h[1-6]$/.test(elem?.nodeType);
+      const groups: any[][] = [];
+      let currentGroup: any[] = [];
+
+      for (let i = 0; i < incomingElements.length; i++) {
+        const elem = incomingElements[i];
+
+        // Detect "KEY POINTS" inside paragraph
+        const isKeyPointsTitle =
+          elem.nodeType === 'p' &&
+          elem.elements?.length === 1 &&
+          elem.elements[0].nodeType === 'strong' &&
+          elem.elements[0].elements?.[0]?.value?.trim().toUpperCase() === 'KEY POINTS';
+
+        if (isKeyPointsTitle && incomingElements[i + 1]?.nodeType === 'ul') {
+          if (currentGroup.length > 0) {
+            groups.push(currentGroup);
+            currentGroup = [];
+          }
+          groups.push([elem, incomingElements[i + 1]]);
+          i++; // Skip rendering the ul normally
+          continue;
+        }
+
+        if (isHeading(elem)) {
+          if (currentGroup.length > 0) {
+            groups.push(currentGroup);
+          }
+          currentGroup = [elem];
+        } else {
+          currentGroup.push(elem);
+        }
+      }
+
+      if (currentGroup.length > 0) {
+        groups.push(currentGroup);
+      }
+
+      let inFaqSection = false;
+      let faqHeadingLevel = 2;
+      let faqBuffer: React.ReactElement[] = [];
+
+      const flushFaqBuffer = () => {
+        if (faqBuffer.length > 0) {
+          textElements.push(
+            <div key={`faq-section-${textElements.length}`} className="flex flex-col gap-space-sm mb-space-2xl">
+              {faqBuffer}
+            </div>,
+          );
+          faqBuffer = [];
+        }
+      };
+
+      groups.forEach((group, gIndex) => {
+        const first = group[0];
+        const isKeyPointsTitle =
+          first?.nodeType === 'p' &&
+          first.elements?.length === 1 &&
+          first.elements[0].nodeType === 'strong' &&
+          first.elements[0].elements?.[0]?.value?.trim().toUpperCase() === 'KEY POINTS';
+
+        const plainTitle = extractPlainText(first).trim().toLowerCase();
+        const isHeadingNode = /^h[1-6]$/.test(first?.nodeType);
+        const isFaqTitle =
+          isHeadingNode && (plainTitle.startsWith('faq') || plainTitle.includes('frequently asked questions'));
+
+        if (isFaqTitle) {
+          inFaqSection = true;
+          faqHeadingLevel = parseInt(first.nodeType.substring(1), 10);
+          textElements.push(
+            <div key={`text-group-${gIndex}`} className="flex flex-col gap-space-sm">
+              {group.map((elem, i) => renderContent(elem, data, 'text'))}
+            </div>,
+          );
+          return;
+        }
+
+        if (inFaqSection) {
+          const isStrongParagraph = first?.nodeType === 'p' && !!first.elements?.find((e: ContentElement) => e.nodeType === 'strong');
+          const isSubHeading = isHeadingNode && parseInt(first.nodeType.substring(1), 10) > faqHeadingLevel;
+          const isQuestionHeading = isSubHeading || isStrongParagraph || plainTitle.endsWith('?');
+
+          if (isHeadingNode && parseInt(first.nodeType.substring(1), 10) <= faqHeadingLevel) {
+            inFaqSection = false;
+            flushFaqBuffer();
+          } else if (isQuestionHeading) {
+            const questionTitle = extractPlainText(first);
+            const answerElements = group.slice(1).map((elem, i) => renderContent(elem, data, 'text'));
+            faqBuffer.push(
+              <Accordion key={`faq-item-${gIndex}`} title={questionTitle}>
+                <div className="flex flex-col gap-space-sm">{answerElements}</div>
+              </Accordion>,
+            );
+            return;
+          }
+        }
+
+        if (isKeyPointsTitle && group.length === 2 && group[1].nodeType === 'ul') {
+          textElements.push(
+            <div key={`keypoints-${gIndex}`} className="bg-primary-lightest rounded-xl border border-line p-space-lg mb-space-2xl">
+              <h3 className="uppercase font-bold tracking-wide text-primary mb-space-md text-lead">KEY POINTS</h3>
+              <div className="text-copy text-lead [&_ul]:list-disc [&_ul]:pl-0 [&_li]:mb-space-sm [&_li::marker]:text-copy-muted [&_p]:mb-space-sm">
+                {renderContent(group[1], data, undefined, '')}
+              </div>
+            </div>,
+          );
+        } else {
+          textElements.push(
+            <div key={`text-group-${gIndex}`} className="flex flex-col gap-space-sm mb-space-2xl last:mb-0">
+              {group.map((elem, i) => renderContent(elem, data, 'text'))}
+            </div>,
+          );
+        }
+      });
+
+      flushFaqBuffer();
+
       return (
         <div id="text" key={key} {...buildAttributes(content)} className={styles} data-type="text">
-          {content.elements.map(elem => renderContent(elem, data, 'text'))}
+          {textElements}
         </div>
       );
     case 'caption':
@@ -227,7 +354,7 @@ export const renderContent = (
       );
     case 'credit':
       return (
-        <span key={key} data-type="credit" {...buildAttributes(content)} className="body-large italic text-gray-500">
+        <span key={key} data-type="credit" {...buildAttributes(content)} className="body-large italic text-copy-muted">
           {content.elements.map(elem => renderContent(elem, data))}
         </span>
       );
@@ -303,15 +430,40 @@ export const renderContent = (
       }
       return <div key={key} data-type="inline-media-group" {...buildAttributes(content)} />;
     case 'anchor':
+      const anchorClasses = [
+        'text-primary',
+        'hover:text-primary-dark',
+        'hover:underline',
+        'font-medium',
+        'transition-colors',
+        content.attributes?.class || content.attributes?.className,
+      ]
+        .filter(Boolean)
+        .join(' ');
+
       return (
-        <Link {...buildAttributes(content)} href={content.attributes.href} key={key} data-type="anchor">
-          {content.elements.map(elem => renderContent(elem, data))}
+        <Link
+          {...buildAttributes(content)}
+          href={content.attributes?.href || '#'}
+          key={key}
+          data-type="anchor"
+          className={anchorClasses}
+        >
+          {content.elements?.map(elem => renderContent(elem, data))}
         </Link>
       );
+    case 'h2': {
+      const h2Id = slugify(extractPlainText(content));
+      return (
+        <h2 key={key} {...buildAttributes(content)} id={h2Id || key}>
+          {content.elements.map(elem => renderContent(elem, data))}
+        </h2>
+      );
+    }
     case 'br':
       return <br key={key} {...buildAttributes(content)} />;
     case 'image':
-      return <img key={key} {...buildAttributes(content)} alt="No image available" />;
+      return <img key={key} {...buildAttributes(content)} className="rounded-media" alt="No image available" />;
 
     case 'table':
       return (
@@ -327,13 +479,13 @@ export const renderContent = (
       );
     case 'td':
       return (
-        <td key={key} {...buildAttributes(content)} className="px-4 py-2">
+        <td key={key} {...buildAttributes(content)} className="px-space-sm py-space-2xs">
           {content.elements.map(elem => renderContent(elem, data))}
         </td>
       );
     case 'th':
       return (
-        <th key={key} {...buildAttributes(content)} className="px-4 py-2 font-bold text-left">
+        <th key={key} {...buildAttributes(content)} className="px-space-sm py-space-2xs font-bold text-left">
           {content.elements.map(elem => renderContent(elem, data))}
         </th>
       );
@@ -342,7 +494,7 @@ export const renderContent = (
       return renderOembedBlock(content, key);
     case 'adblock':
       return (
-        <div key={key} className="flex justify-center my-6" data-type="ad">
+        <div key={key} className="flex justify-center my-space-md" data-type="ad">
           <img src="https://placehold.co/1200x259?text=Adv" alt="Advertisement" />
         </div>
       );
@@ -394,6 +546,7 @@ export const renderContent = (
         </div>
       );
     default:
+      console.log('[renderContent] unhandled nodeType:', content.nodeType);
       const CustomElement = content.nodeType as keyof JSX.IntrinsicElements; // resolving the element name from the template as default
 
       return (
