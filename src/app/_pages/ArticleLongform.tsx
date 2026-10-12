@@ -1,11 +1,10 @@
+import PageLayout from "../components/PageLayout";
 import React from 'react';
 import { ArticleModel } from '@/types/models';
 import { ContentElement, PageData } from '@eidosmedia/neon-frontoffice-ts-sdk';
-import Navbar from '../components/Navbar';
 import { renderContent, findElementsInContentJson } from '@/utilities/content';
 import HeroCoverImage from '../components/contentElements/HeroCoverImage';
 import Summary from '../components/contentElements/Summary';
-import Footer from '../components/Footer';
 
 type PageProps = {
   data: PageData<ArticleModel>;
@@ -28,9 +27,7 @@ const Article: React.FC<PageProps> = ({ data }) => {
     console.log('[AdBlock] adsDensity:', adsDensity);
 
     // Count existing adblocks
-    const existingAdsCount = textContent.elements.filter(
-      element => element.nodeType === 'adblock'
-    ).length;
+    const existingAdsCount = textContent.elements.filter(element => element.nodeType === 'adblock').length;
 
     console.log('[AdBlock] Existing adblocks:', existingAdsCount);
 
@@ -60,10 +57,7 @@ const Article: React.FC<PageProps> = ({ data }) => {
       }
 
       // Insert ad after every 3 paragraphs
-      if (element.nodeType === 'p' &&
-          paragraphsSinceLastAd === 3 &&
-          adsAdded < maxNewAds) {
-
+      if (element.nodeType === 'p' && paragraphsSinceLastAd === 3 && adsAdded < maxNewAds) {
         console.log(`[AdBlock] Reached 3 paragraphs at index ${index}, checking if we can add ad...`);
 
         // Check if we have at least 3 more paragraphs ahead or an existing adblock
@@ -80,7 +74,7 @@ const Article: React.FC<PageProps> = ({ data }) => {
             nodeType: 'adblock',
             attributes: {},
             elements: [],
-            value: ''
+            value: '',
           });
           paragraphsSinceLastAd = 0;
           adsAdded++;
@@ -95,31 +89,24 @@ const Article: React.FC<PageProps> = ({ data }) => {
 
     return {
       ...textContent,
-      elements: newElements
+      elements: newElements,
     };
   }, [textContent, adsDensity]);
 
   return (
-    <article>
-      <Navbar data={data} />
+    <PageLayout data={data}>
+      <div className="flex flex-col">
       <HeroCoverImage data={articleData} format="Ultrawide_large" preferredImage="main" />
-      <div className="container mx-auto px-5 xl:px-52 mt-10 mb-12">
+      <div className="container mx-auto px-space-md xl:px-reading-inset mt-space-xl mb-space-2xl">
         <Summary data={articleData} />
-        <div>
-          {renderContent(
-            textContentWithAds,
-            articleData,
-            undefined,
-            'flex flex-col gap-4'
-          )}
-        </div>
+        <div>{renderContent(textContentWithAds, articleData, undefined, 'flex flex-col gap-space-sm')}</div>
       </div>
-      <div className="flex justify-center mb-24">
+      <div className="flex justify-center mb-space-5xl">
         {/* Placeholder for advertisement */}
         <img src="https://placehold.co/1200x259?text=Adv" alt="Advertisement" />
       </div>
-      <Footer data={data} />
-    </article>
+      </div>
+    </PageLayout>
   );
 };
 

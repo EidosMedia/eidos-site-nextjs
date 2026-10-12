@@ -53,9 +53,9 @@ const SearchResultItem = ({ result, data, onChangeSelected, index }: SearchResul
     getDimensionsFromUrl(result.nodeData.links?.system?.mainPicture[0]?.dynamicCropsResourceUrls.Wide_small);
 
   return (
-    <div key={result.nodeData.id} className="grid grid-cols-1 md:grid-cols-1 gap-2">
+    <div key={result.nodeData.id} className="grid grid-cols-1 md:grid-cols-1 gap-space-2xs">
       <div className="col-span-1 relative group">
-        <div className="absolute top-2 left-[-30] z-10">
+        <div className="absolute top-space-2xs z-10">
           <input
             type="checkbox"
             id="sel{index}"
@@ -66,17 +66,16 @@ const SearchResultItem = ({ result, data, onChangeSelected, index }: SearchResul
         <ArticleOverlay data={data.root} viewStatus={data.viewStatus}>
           <ErrorBoundaryContainer>
             <Link className="no-underline" href={result.nodeData.url}>
-              <div className="text-left grid grid-cols-12 h-[250px] gap-4">
+              <div className="text-left grid grid-cols-12 h-64 gap-space-sm">
                 <div
                   id={`item${index}`}
-                  className="col-span-6 flex flex-col gap-2 relative"
-                  style={{ maxHeight: '200px', overflow: 'hidden' }}
+                  className="col-span-6 flex flex-col gap-space-2xs relative max-h-50 overflow-hidden"
                   ref={el => {
                     if (el && el.scrollHeight > el.clientHeight && !el.dataset.showMoreInitialized) {
                       el.dataset.showMoreInitialized = 'true';
                       const btn = document.createElement('button');
                       btn.textContent = 'Show more';
-                      btn.className = 'absolute bottom-0 right-0 bg-white px-2 py-1 text-blue-600 underline';
+                      btn.className = 'absolute bottom-0 right-0 bg-canvas px-space-2xs py-space-3xs text-primary underline';
                       btn.onclick = () => {
                         el.style.maxHeight = 'none';
                         btn.remove();
@@ -112,7 +111,7 @@ const SearchResultItem = ({ result, data, onChangeSelected, index }: SearchResul
                       result.nodeData.links?.system?.mainPicture[0]?.dynamicCropsResourceUrls.Wide_small ||
                       '/static/img/nothumb.jpeg'
                     }
-                    className="h-[250px] object-cover justify-self-end"
+                    className="h-64 object-cover justify-self-end rounded-media"
                     style={{ color: 'transparent' }}
                   />
                 </div>

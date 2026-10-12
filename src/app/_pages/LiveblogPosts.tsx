@@ -64,15 +64,15 @@ const LiveblogPosts: React.FC<PageProps> = ({ data }) => {
   const topDivRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div ref={topDivRef} className="bg-primary-dark py-8 px-36">
-      <div className="flex items-center gap-1 mb-6 w-fit max-h-[30px] p-2 rounded-xs bg-feedback-red text-neutral-lightest">
+    <div ref={topDivRef} className="bg-primary-dark py-space-lg px-space-6xl">
+      <div className="flex items-center gap-space-3xs mb-space-md w-fit max-h-8 p-space-2xs rounded-sm bg-feedback-red text-inverse">
         <CircleDot className="w-4 h-4" />
-        <span className="subhead1 pt-[3px]">Live blog</span>
+        <span className="subhead1 pt-space-3xs">Live blog</span>
       </div>
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-space-md">
         {liveblogPosts.length > 0 ? (
           liveblogPosts.map(data => (
-            <div key={data.id} className="liveblog-posts bg-neutral-lightest p-6 rounded-sm">
+            <div key={data.id} className="liveblog-posts bg-canvas p-space-md rounded-sm">
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   {/* DATE */}
@@ -84,7 +84,7 @@ const LiveblogPosts: React.FC<PageProps> = ({ data }) => {
                       .replace(/(\d+)(?=,)/, match => `${match}th`)}
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-space-2xs">
                   {/* ICONS */}
                   <Button variant="ghost">
                     <Share className="w-4 h-4" />
@@ -101,12 +101,12 @@ const LiveblogPosts: React.FC<PageProps> = ({ data }) => {
             </div>
           ))
         ) : (
-          <p key="loading" className="text-neutral-lightest">
+          <p key="loading" className="text-inverse">
             No liveblog posts available at the moment. Please check back later.
           </p>
         )}
       </div>
-      <div className="flex justify-center mt-8">
+      <div className="flex justify-center mt-space-lg">
         <Button
           onClick={() => {
             topDivRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });

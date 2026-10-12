@@ -32,45 +32,45 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <form className="bg-white p-8 rounded shadow-md w-full max-w-sm" onSubmit={handleSubmit}>
-        <h2 className="text-2xl font-bold mb-6 text-center">Log in</h2>
+    <div className="flex min-h-screen items-center justify-center bg-surface">
+      <form className="bg-canvas p-space-lg rounded-sm shadow-md w-full max-w-sm" onSubmit={handleSubmit}>
+        <h2 className="text-h3 mb-space-md text-center">Log in</h2>
         {loginError && (
-          <div className="bg-red-600 text-white text-center py-2 rounded flex items-center justify-center gap-2 mb-4">
+          <div className="bg-feedback-red text-inverse text-center py-space-2xs rounded-sm flex items-center justify-center gap-space-2xs mb-space-sm">
             <CircleX /> <span>Unable to login</span>
           </div>
         )}
-        <p className="mb-4 text-gray-600">
+        <p className="mb-space-sm text-copy-muted">
           Enter your credential to access all The Globe products. By proceeding, you agree to out terms and conditions.
         </p>
-        <p className="mb-4 text-gray-600">For information about how we use your data, see our privacy policy.</p>
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2" htmlFor="email">
+        <p className="mb-space-sm text-copy-muted">For information about how we use your data, see our privacy policy.</p>
+        <div className="mb-space-sm">
+          <label className="block text-copy mb-space-2xs" htmlFor="email">
             Username
           </label>
           <input
             id="email"
             name="email"
             type="text"
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300"
+            className="w-full px-space-xs py-space-2xs border rounded-sm focus:outline-none focus:ring focus:border-primary-light"
             required
             autoComplete="email"
           />
         </div>
-        <div className="mb-6">
-          <label className="block text-gray-700 mb-2" htmlFor="password">
+        <div className="mb-space-md">
+          <label className="block text-copy mb-space-2xs" htmlFor="password">
             Password
           </label>
           <input
             id="password"
             name="password"
             type="password"
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-300"
+            className="w-full px-space-xs py-space-2xs border rounded-sm focus:outline-none focus:ring focus:border-primary-light"
             required
             autoComplete="current-password"
           />
         </div>
-        <Button variant="default" className="flex items-center gap-2">
+        <Button variant="default" className="flex items-center gap-space-2xs">
           Login
         </Button>
       </form>

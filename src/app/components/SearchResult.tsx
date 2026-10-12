@@ -7,7 +7,7 @@ import { Button } from './baseComponents/button';
 import SearchResultItem from './SearchResultItem';
 import { Input } from './baseComponents/textInput';
 import CustomSelect from './baseComponents/select';
-import AiSearchIcon from './icons/AiSearch';
+import AiSearch from './icons/AiSearch';
 import { chatResponse } from './mocks/mocks';
 
 type ChatRoundTrip = {
@@ -44,9 +44,7 @@ const SearchResult = ({ data }: { data: Site }) => {
   ];
 
   const buildSearchOptions = () => {
-    const opts = [
-      { value: 'search', text: 'Search' },      
-    ];
+    const opts = [{ value: 'search', text: 'Search' }];
 
     if (showAiSearch) {
       opts.push({ value: 'ai-search', text: 'AI Search' });
@@ -54,7 +52,7 @@ const SearchResult = ({ data }: { data: Site }) => {
     if (showAiQuestion) {
       opts.push({ value: 'ai-question', text: 'AI Question' });
     }
-    
+
     return opts;
   };
 
@@ -309,7 +307,7 @@ const SearchResult = ({ data }: { data: Site }) => {
         const newChatRoundTrip: ChatRoundTrip = {
           titles: Array.from(selectedResults.values()),
           question: questionText,
-          answer: data?.answer || 'No answer provided'
+          answer: data?.answer || 'No answer provided',
         };
 
         setChat(prevChat => [...prevChat, newChatRoundTrip]);
@@ -357,13 +355,13 @@ const SearchResult = ({ data }: { data: Site }) => {
   return (
     <div className="grid items-center text-center max-w-5xl mx-auto">
       <form className="text-center" onSubmit={handleOnSearchFormSubmit}>
-        <div className="flex items-center justify-center mb-4 flex-col md:flex-row gap-2 mt-10">
-          <div className="flex grow-1 flex-col gap-2">
-            <div className="flex gap-4">
+        <div className="flex items-center justify-center mb-space-sm flex-col md:flex-row gap-space-2xs mt-space-xl">
+          <div className="flex grow-1 flex-col gap-space-2xs">
+            <div className="flex gap-space-sm">
               <CustomSelect
                 placeholder=""
                 options={buildSearchOptions()}
-                className="w-[120px] font-semibold"
+                className="w-30 font-semibold"
                 value={selectedSearchOption}
                 onChange={handleSearchOptionChange}
               />
@@ -373,7 +371,7 @@ const SearchResult = ({ data }: { data: Site }) => {
                 value={searchText}
                 onChange={handleTextChange}
                 className="grow-1"
-                Icon={<AiSearchIcon />}
+                Icon={<Search />}
                 placeholder="Enter search text to enable search"
               />
             </div>
@@ -384,28 +382,28 @@ const SearchResult = ({ data }: { data: Site }) => {
       {
         /* Render search results */
         isLoading ? (
-          <div className="mt-8 flex flex-col items-center">
-            <div className="mt-4 flex justify-center items-center">
+          <div className="mt-space-lg flex flex-col items-center">
+            <div className="mt-space-sm flex justify-center items-center">
               <LoaderCircle className="animate-spin" />
             </div>
             <p>Loading data...</p>
           </div>
         ) : (
-          <div className="mt-8 flex flex-col items-center">
+          <div className="mt-space-lg flex flex-col items-center">
             {result?.answer && (
-              <div className="mt-4 flex flex-col items-center bg-(--color-primary-lightest) p-4 rounded-sm">
-                <h4 className="text-xl font-bold mb-2 mt-2 text-gray-800">The globe overview</h4>
+              <div className="mt-space-sm flex flex-col items-center bg-primary-lightest p-space-sm rounded-sm">
+                <h4 className="text-h3 mb-space-2xs mt-space-2xs text-heading">The globe overview</h4>
                 <p className="text-left">{result?.answer}</p>
               </div>
             )}
             {result.count > 0 && (
-              <div className="flex w-full justify-between items-center mb-4 pl-2 gap-2">
+              <div className="flex w-full justify-between items-center mb-space-sm pl-space-2xs gap-space-2xs">
                 <div>
-                  <h4 className="text-xl text-left font-bold mb-2 mt-2 text-gray-800">Response references</h4>
+                  <h4 className="text-h3 text-left mb-space-2xs mt-space-2xs text-heading">Response references</h4>
                   <div className="text-left text-semibold font-gabarito">{result.count} items that match with:</div>
                   <h2 className="text-left">{lastSearchText.current}</h2>
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-space-3xs">
                   <label className="text-left justify-start whitespace-nowrap font-gabarito font-semibold">
                     Select time period
                   </label>
@@ -414,12 +412,12 @@ const SearchResult = ({ data }: { data: Site }) => {
                     options={options}
                     value={selectedOption}
                     onChange={handleOptionChange}
-                    className="w-[240px] font-bold"
+                    className="w-60 font-bold"
                   />
                 </div>
               </div>
             )}
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-1">
+            <div className="grid grid-cols-1 gap-space-md md:grid-cols-1">
               {result?.count > 0 ? (
                 result.result.map((result, index) => {
                   return (
@@ -433,8 +431,8 @@ const SearchResult = ({ data }: { data: Site }) => {
                   );
                 })
               ) : (
-                <div className="mt-4 flex flex-col items-center">
-                  <AiSearchIcon className="h-[32px]" />
+                <div className="mt-space-sm flex flex-col items-center">
+                  <Search className="h-8" />
                   {!authorized && query.get('t') === 'n' ? (
                     <p>You are not authorized to use AI features</p>
                   ) : (
@@ -450,38 +448,38 @@ const SearchResult = ({ data }: { data: Site }) => {
               )}
             </div>
             {chat.length > 0 ? (
-              <div className="mt-4 text-center">
-                <h3 className="text-xl font-bold mb-2 text-gray-800">AI Chat History</h3>
+              <div className="mt-space-sm text-center">
+                <h3 className="text-h3 mb-space-2xs text-heading">AI Chat History</h3>
                 {chat.map((item, index) => (
-                  <div key={index} className="mt-4 mb-4 text-left">
-                    <div className="text-lg mt-1 text-left bg-gray-100 rounded-tl-[12px] rounded-tr-[12px] rounded-bl-none rounded-br-[12px] p-4 my-2 inline-block max-w-full">
+                  <div key={index} className="mt-space-sm mb-space-sm text-left">
+                    <div className="text-lead mt-space-3xs text-left bg-surface rounded-tl-lg rounded-tr-lg rounded-bl-none rounded-br-lg p-space-sm my-space-2xs inline-block max-w-full">
                       <p className="font-gabarito">{item.question}</p>
                     </div>
-                    <div className="text-lg mt-1 text-right bg-[var(--color-primary-lightest)] rounded-tl-[12px] rounded-tr-[12px] rounded-bl-[12px] rounded-br-none p-4 my-2 inline-block max-w-full ml-40">
+                    <div className="text-lead mt-space-3xs text-right bg-primary-lightest rounded-tl-lg rounded-tr-lg rounded-bl-lg rounded-br-none p-space-sm my-space-2xs inline-block max-w-full ml-space-6xl">
                       <p className="font-gabarito">{item.answer}</p>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="mt-4"></div>
+              <div className="mt-space-sm"></div>
             )}
             {authorized && selectedResults.size > 0 ? (
-              <div className="grid w-full gap-2">
-                <ul className="flex flex-col align-left text-gray-800 list-none">
+              <div className="grid w-full gap-space-2xs">
+                <ul className="flex flex-col align-left text-copy list-none">
                   <h3>Using the set of selected results</h3>
                   {Array.from(selectedResults.entries()).map(([key, value], index) => {
                     return (
                       <li key={index} className="search-ask-about-selected-item">
                         <p>
-                          <span className="mr-2 text-black">•</span>
+                          <span className="mr-space-2xs text-heading">•</span>
                           <i>{value}</i>
                         </p>
                       </li>
                     );
                   })}
                 </ul>
-                <form onSubmit={handleAnswerToSelection} className="flex w-full gap-2">
+                <form onSubmit={handleAnswerToSelection} className="flex w-full gap-space-2xs">
                   <Input
                     type="text"
                     id="questionText"
@@ -495,18 +493,18 @@ const SearchResult = ({ data }: { data: Site }) => {
                   </Button>
                 </form>
                 {isAsking ? (
-                  <div className="text-center ml-2">
-                    <div className="mt-4 flex justify-center items-center">
-                      <LoaderCircle className="animate-spin color-(--color-primary)" />
+                  <div className="text-center ml-space-2xs">
+                    <div className="mt-space-sm flex justify-center items-center">
+                      <LoaderCircle className="animate-spin text-primary" />
                     </div>
                     <p className="font-epilogue">Asking...</p>
                   </div>
                 ) : (
-                  <div className="mt-4"></div>
+                  <div className="mt-space-sm"></div>
                 )}
               </div>
             ) : (
-              <div className="mt-4"></div>
+              <div className="mt-space-sm"></div>
             )}
           </div>
         )
