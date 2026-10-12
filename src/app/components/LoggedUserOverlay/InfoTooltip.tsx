@@ -57,8 +57,8 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({ pageData }) => {
       </a>
       {opened && (
         <div
-          className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 z-10 bg-white p-2.5 shadow-lg border border-gray-300 rounded-xs
-            grid grid-cols-2 gap-5 w-max text-xs"
+          className="absolute top-full left-1/2 transform -translate-x-1/2 mt-space-2xs z-10 bg-white p-space-xs shadow-lg border border-gray-300 rounded-sm
+            grid grid-cols-2 gap-space-md w-max text-xs"
           style={{ maxWidth: 'calc(100vw - 20px)' }} // Ensure tooltip fits within viewport
         >
           {/* POINTING ARROW */}
@@ -67,16 +67,16 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({ pageData }) => {
               absolute -top-1 left-1/2 transform -translate-x-1/2 rotate-45"
           />
           {/* LEFT SIDE */}
-          <div className="flex flex-col gap-3">
-            <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-space-xs">
+            <div className="flex flex-col gap-space-3xs">
               <h5 className="font-semibold">ID</h5>
               <p className="">{data.id}</p>
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-space-3xs">
               <h5 className="font-semibold">Title</h5>
               <p>{data.title}</p>
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-space-3xs">
               <h5 className="font-semibold">Author</h5>
               <p>{data.authors?.[0]}</p>
             </div>
@@ -84,20 +84,20 @@ const InfoTooltip: React.FC<InfoTooltipProps> = ({ pageData }) => {
           {/* DIVIDER */}
           <div className="w-px h-[calc(100%-20px)] bg-gray-300 absolute top-2.5 left-1/2 transform -translate-x-px" />
           {/* RIGHT SIDE */}
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-space-xs">
             {data.pubInfo?.priority && (
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-space-3xs">
                 <h5 className="font-semibold">Priority</h5>
                 <p>{getPriorityString(data.pubInfo.priority)}</p>
               </div>
             )}
             {data.pubInfo?.paywallLevel && (
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-space-3xs">
                 <h5 className="font-semibold">Paywall</h5>
                 <p>{data.pubInfo.paywallLevel}</p>
               </div>
             )}
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-space-3xs">
               <h5 className="font-semibold">Publication Date</h5>
               <p className="text-nowrap">{getPublicationDateString(data.pubInfo.publicationTime)}</p>
             </div>

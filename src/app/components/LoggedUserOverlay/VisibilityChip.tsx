@@ -22,7 +22,7 @@ const VisibilityChip: React.FC<LoggedUserBarComponentProps> = ({ data }) => {
   const expireString = calculateExpireString(data.model.data.pubInfo);
 
   return expireString ? (
-    <div className="relative flex items-center justify-center text-orange-500 bg-orange-200 border-orange-500 rounded-full h-7 px-2 font-bold">
+    <div className="relative flex items-center justify-center text-orange-500 bg-orange-200 border-orange-500 rounded-full h-7 px-space-2xs font-bold">
       {expireString}
     </div>
   ) : null;

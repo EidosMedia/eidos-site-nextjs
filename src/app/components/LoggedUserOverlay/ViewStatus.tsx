@@ -56,7 +56,7 @@ const ViewStatus: React.FC<LoggedUserBarProps> = ({ data }) => {
 
   return (
     <>
-      <div className={clsx('flex items-center justify-center text-white px-5 h-16', colorClass())}>
+      <div className={clsx('flex items-center justify-center text-white px-space-md h-16', colorClass())}>
         {isLastLive || isLastPreview ? (
           version
         ) : (
@@ -71,7 +71,7 @@ const ViewStatus: React.FC<LoggedUserBarProps> = ({ data }) => {
       {(isLastLive || isLastPreview) && 'model' in data && data.model.data.url && (
         <Link
           href="#"
-          className="fit-content cursor-pointer px-4 py-2 rounded-[2px] text-white bg-[#2847E2] hover:bg-[#191FBD] duration-300 ease-in-out ml-4"
+          className="fit-content cursor-pointer px-space-sm py-space-2xs rounded-sm text-white bg-[#2847E2] hover:bg-[#191FBD] duration-300 ease-in-out ml-space-sm"
           onClick={e => {
             e.preventDefault();
             window.location.href = goToUrl();

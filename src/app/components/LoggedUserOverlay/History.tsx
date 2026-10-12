@@ -188,16 +188,16 @@ const History: React.FC<UserLayerProps> = ({ data }) => {
           data-panel="history"
         >
           <div className="text-black relative grow-1 min-h-0 flex flex-col">
-            <div className="flex items-center justify-between py-4 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-              <span className="flex items-center gap-2 text-(--color-panel-text-header) ml-1">
+            <div className="flex items-center justify-between py-space-sm bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+              <span className="flex items-center gap-space-2xs text-(--color-panel-text-header) ml-space-3xs">
                 <Clock />
                 <span>Versions history</span>
               </span>
-              <a onClick={() => setPanelOpened(false)} className="cursor-pointer mr-1">
+              <a onClick={() => setPanelOpened(false)} className="cursor-pointer mr-space-3xs">
                 <Close />
               </a>
             </div>
-            <div className="p-4 bg-gray-100 dark:bg-gray-900 grow-1 min-h-0 overflow-y-auto">
+            <div className="p-space-sm bg-gray-100 dark:bg-gray-900 grow-1 min-h-0 overflow-y-auto">
               {loadingHistory ? (
                 <div className="text-gray-500 italic">
                   <LoaderCircle className="animate-spin" />
@@ -213,7 +213,7 @@ const History: React.FC<UserLayerProps> = ({ data }) => {
                       const isLatestPreviewVersion = !item.live && latestEditNodeVersion?.nodeId === item.nodeId;
 
                       return (
-                        <li className="mb-10 ms-4" key={item.nodeId}>
+                        <li className="mb-space-xl ms-space-sm" key={item.nodeId}>
                           <div
                             className={clsx(
                               'absolute w-5 h-5 rounded-full mt-0 -start-2.5 border border-white dark:border-gray-900 dark:bg-gray-700',
@@ -230,7 +230,7 @@ const History: React.FC<UserLayerProps> = ({ data }) => {
                                 : {})}
                             >
                               <div
-                                className={clsx('p-4 rounded-sm mr-1 ', isVersionShown ? 'bg-blue-100' : 'bg-white')}
+                                className={clsx('p-space-sm rounded-sm mr-space-3xs ', isVersionShown ? 'bg-blue-100' : 'bg-white')}
                               >
                                 <div className="flex items-center justify-between">
                                   <h3 className="font-semibold text-gray-900 dark:text-white">
@@ -252,17 +252,17 @@ const History: React.FC<UserLayerProps> = ({ data }) => {
                                           label: 'LIVE',
                                           className: isLatest ? 
                                             clsx(
-                                              'text-xs text-green-600 bg-green-100 border border-green-600 rounded-full px-3 py-0.5',
+                                              'text-xs text-green-600 bg-green-100 border border-green-600 rounded-full px-space-xs py-space-3xs',
                                               isLatestLiveVersion ? 'font-bold' : 'font-normal',
                                             ) :
-                                            'text-xs text-gray-600 bg-gray-100 border border-gray-600 rounded-full px-3 py-0.5 font-normal',
+                                            'text-xs text-gray-600 bg-gray-100 border border-gray-600 rounded-full px-space-xs py-space-3xs font-normal',
                                         };
                                       }
 
                                       if (isLatestPreviewVersion) {
                                         return {
                                           label: 'LATEST',
-                                          className: 'text-xs text-blue-600 bg-blue-100 border border-blue-600 rounded-full px-3 py-0.5 font-bold',
+                                          className: 'text-xs text-blue-600 bg-blue-100 border border-blue-600 rounded-full px-space-xs py-space-3xs font-bold',
                                         };
                                       }
 
@@ -274,7 +274,7 @@ const History: React.FC<UserLayerProps> = ({ data }) => {
                                   })()}
                                 </div>
                                 <div className="flex items-center justify-between ">
-                                  <div className="mb-4 font-normal text-gray-500 dark:text-gray-400">
+                                  <div className="mb-space-sm font-normal text-gray-500 dark:text-gray-400">
                                     {(() => {
                                       const d = new Date(item.versionDate);
                                       return isNaN(d.getTime()) ? <em>My working copy</em> : d.toLocaleString();
@@ -289,7 +289,7 @@ const History: React.FC<UserLayerProps> = ({ data }) => {
                             </Link>
                             {index > 0 && !item.live && !isLatestPreviewVersion && !latestPreviewSysData?.lockedBy && (
                               <button
-                                className="z-20 absolute right-2 bottom-2 fit-content cursor-pointer px-2 py-1 rounded-[2px] text-white bg-[#2847E2] hover:bg-[#191FBD] duration-300 ease-in-out"
+                                className="z-20 absolute right-2 bottom-2 fit-content cursor-pointer px-space-2xs py-space-3xs rounded-sm text-white bg-[#2847E2] hover:bg-[#191FBD] duration-300 ease-in-out"
                                 title="Rollback to this version"
                                 onClick={e => {
                                   e.stopPropagation();

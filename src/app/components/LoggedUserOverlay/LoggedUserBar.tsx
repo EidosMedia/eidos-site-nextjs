@@ -63,7 +63,7 @@ const LoggedUserBar: React.FC<LoggedUserBarProps> = ({ data, siteName }) => {
           )}
           {/* <Switch label="Analytics" checked={analyticsEnabled} onChange={toggleAnalytics} /> */}
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-space-xs">
           <div className="flex items-center justify-center text-white">{siteName || data.siteData?.siteName}</div>
           {'model' in data && (
             <>
@@ -93,7 +93,7 @@ const LoggedUserBar: React.FC<LoggedUserBarProps> = ({ data, siteName }) => {
               <EditedChip data={data} />
             </>
           )}
-          <div className="flex items-center justify-center text-white gap-3">
+          <div className="flex items-center justify-center text-white gap-space-xs">
             <img
               className="w-10 h-10 rounded-full"
               src={`/api/users/picture?id=${userData?.user.id}`}

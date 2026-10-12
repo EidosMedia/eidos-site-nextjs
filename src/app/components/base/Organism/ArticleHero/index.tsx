@@ -33,21 +33,21 @@ const ArticleHero: React.FC<ArticleHeroProps> = ({ data, linkedObject }) => {
         className="no-underline"
         href={loggedUserInfo.inspectItems ? '' : url}
       >
-        <div className="relative w-full h-[60vh] min-h-[400px] max-h-[500px] overflow-hidden group">
+        <div className="relative w-full h-[60vh] min-h-100 max-h-125 overflow-hidden group">
           {/* Background Image */}
           <div className="absolute inset-0">
             <MainImage data={linkedObject} format="Ultrawide_large" hideCaptions />
           </div>
 
           {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink-deep/90 via-ink-deep/50 to-transparent" />
 
           {/* Content Overlay */}
           <div className="absolute inset-0 flex items-end">
-            <div className="container mx-auto px-8 pb-12 max-w-7xl">
-              <div className="text-white max-w-4xl">
+            <div className="container mx-auto px-space-lg pb-space-2xl max-w-7xl">
+              <div className="text-inverse max-w-4xl">
                 {/* Section */}
-                <span className="subhead1 uppercase text-gray-200 mb-3 inline-block" data-type="overhead">
+                <span className="subhead1 uppercase text-inverse/80 mb-space-xs inline-block" data-type="overhead">
                   {overhead}
                 </span>
 
@@ -59,7 +59,7 @@ const ArticleHero: React.FC<ArticleHeroProps> = ({ data, linkedObject }) => {
                   minimal
                 >
                   <h1
-                    className="text-5xl font-bold leading-tight mb-4 text-white group-hover:text-gray-100 transition-colors"
+                    className="text-h1 mb-space-sm text-inverse group-hover:text-inverse/90 transition-colors"
                     id={titleId}
                     data-type="title"
                   >
@@ -74,13 +74,13 @@ const ArticleHero: React.FC<ArticleHeroProps> = ({ data, linkedObject }) => {
                   data={linkedObject}
                   minimal
                 >
-                  <p className="text-xl leading-relaxed text-gray-200 mb-3" id={summaryId} data-type="summary">
+                  <p className="text-lead text-inverse/80 mb-space-xs" id={summaryId} data-type="summary">
                     {summary}
                   </p>
                 </ContentEditable>
 
                 {/* Author */}
-                {linkedObject.author && <span className="text-base text-gray-300">{linkedObject.author}</span>}
+                {linkedObject.author && <span className="text-body text-inverse/70">{linkedObject.author}</span>}
               </div>
             </div>
           </div>

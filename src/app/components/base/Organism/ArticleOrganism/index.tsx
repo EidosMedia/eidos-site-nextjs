@@ -28,38 +28,38 @@ const getArticleClasses = (type: string) => {
   }> = {
     // article-xl: Desktop 5-7, Tablet 5-7, Mobile 12-12
     'article-xl': {
-      container: 'gap-4 max-[576px]:gap-3',
+      container: 'gap-space-sm max-[576px]:gap-space-xs',
       textColumn: 'col-span-5 max-[1024px]:col-span-12 max-[1024px]:order-1',
       imageColumn: 'col-span-7 max-[1024px]:col-span-12 max-[1024px]:order-2 max-[1024px]:justify-start',
-      section: 'mt-2 max-[1024px]:mt-0',
+      section: 'mt-space-2xs max-[1024px]:mt-0',
     },
     // article-lg: Desktop 12-12, Tablet 12-12, Mobile 12-12 (full width always)
     'article-lg': {
-      container: 'gap-4',
+      container: 'gap-space-sm',
       textColumn: 'col-span-12 order-2',
       imageColumn: 'col-span-12 order-1 justify-start',
-      section: 'mt-2',
+      section: 'mt-space-2xs',
     },
     // article-md: Desktop 5-7, Tablet 6-6, Mobile 12-12
     'article-md': {
-      container: 'gap-3 max-[1024px]:gap-2',
+      container: 'gap-space-xs max-[1024px]:gap-space-2xs',
       textColumn: 'col-span-5 max-[1024px]:col-span-6 max-[1024px]:col-span-12 max-[1024px]:order-1',
       imageColumn: 'col-span-7 max-[1024px]:col-span-6 max-[1024px]:col-span-12 max-[1024px]:order-2 max-[1024px]:justify-start',
-      section: 'mt-2 max-[1024px]:mt-0',
+      section: 'mt-space-2xs max-[1024px]:mt-0',
     },
     // article-sm: Desktop 12-12, Tablet 12-12, Mobile 12-12 (full width always)
     'article-sm': {
-      container: 'gap-2',
+      container: 'gap-space-2xs',
       textColumn: 'col-span-12 order-2',
       imageColumn: 'col-span-12 order-1 justify-start',
-      section: 'mt-1',
+      section: 'mt-space-3xs',
     },
     // article-xs: Desktop 9-3, Tablet 9-3, Mobile 9-3 (stays same at all breakpoints)
     'article-xs': {
-      container: 'gap-2',
+      container: 'gap-space-2xs',
       textColumn: 'col-span-9 order-1',
       imageColumn: 'col-span-3 order-2 justify-end',
-      section: 'mt-1',
+      section: 'mt-space-3xs',
     },
   };
 
@@ -98,7 +98,7 @@ const ArticleOrganism: React.FC<ArticleOrganismProps> = ({ data, linkedObject, l
         className="no-underline"
         href={loggedUserInfo.inspectItems ? '' : url}
       >
-        <div className={`p-4 grid grid-cols-12 ${classes.container}`}>
+        <div className={`p-space-sm grid grid-cols-12 ${classes.container}`}>
           <div className={`flex flex-col ${classes.textColumn}`}>
             <span className={`subhead1 uppercase ${classes.section}`} data-type="section">
               {overhead}
@@ -109,7 +109,7 @@ const ArticleOrganism: React.FC<ArticleOrganismProps> = ({ data, linkedObject, l
               data={linkedObject}
               minimal
             >
-              <TitleComponent className="mt-2" id={titleId} data-type="title">
+              <TitleComponent className="mt-space-2xs" id={titleId} data-type="title">
                 <p>{title}</p>
               </TitleComponent>
             </ContentEditable>
@@ -119,11 +119,11 @@ const ArticleOrganism: React.FC<ArticleOrganismProps> = ({ data, linkedObject, l
               data={linkedObject}
               minimal
             >
-              <span className="mt-2" id={summaryId} data-type="summary">
+              <span className="mt-space-2xs" id={summaryId} data-type="summary">
                 <p>{summary}</p>
               </span>
             </ContentEditable>
-            <span className="mt-2">{linkedObject.author}</span>
+            <span className="mt-space-2xs">{linkedObject.author}</span>
           </div>
           <div className={`flex justify-end items-end ${classes.imageColumn}`}>
             <MainImage data={linkedObject} format="Wide_small" hideCaptions />

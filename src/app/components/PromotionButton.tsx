@@ -40,9 +40,9 @@ const PromotionButton: React.FC<PromotionButtonProps> = ({ data, viewStatus }) =
   return (
     isUserLogged &&
     showButton && (
-      <div className="flex items-center justify-center text-white cursor-pointer">
+      <div className="flex items-center justify-center text-inverse cursor-pointer">
         <button
-          className="fit-content cursor-pointer px-4 py-2 rounded-[2px] text-white bg-[#2847E2] hover:bg-[#191FBD] duration-300 ease-in-out"
+          className="fit-content cursor-pointer px-space-sm py-space-2xs rounded-sm text-inverse bg-primary hover:bg-primary-hover duration-300 ease-in-out"
           title={isLive ? 'Unpublish' : 'Publish'}
           onClick={handlePromotion}
         >

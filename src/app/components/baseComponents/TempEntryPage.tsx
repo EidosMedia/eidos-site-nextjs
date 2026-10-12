@@ -17,9 +17,9 @@ const TempEntryPage = () => {
   ];
 
   return (
-    <div className="p-6">
+    <div className="p-space-md">
       <ComponentsContainer title="Buttons">
-        <div className="flex gap-4 flex-col w-fit p-8 font-epilogue">
+        <div className="flex gap-space-sm flex-col w-fit p-space-lg font-epilogue">
           <Button>
             {' '}
             <Mail /> Primary
@@ -37,7 +37,7 @@ const TempEntryPage = () => {
             Title
           </Button>
         </div>
-        <div className="flex gap-4 flex-col w-fit p-8 font-epilogue">
+        <div className="flex gap-space-sm flex-col w-fit p-space-lg font-epilogue">
           <Button>
             {' '}
             <Mail />{' '}
@@ -52,7 +52,7 @@ const TempEntryPage = () => {
             <Copy />
           </Button>
         </div>
-        <div className="flex gap-4 flex-col w-fit p-8 font-epilogue">
+        <div className="flex gap-space-sm flex-col w-fit p-space-lg font-epilogue">
           <Button disabled>
             {' '}
             <Mail /> Disabled
@@ -70,7 +70,7 @@ const TempEntryPage = () => {
             Disabled
           </Button>
         </div>
-        <div className="flex gap-4 flex-col w-fit p-8 font-epilogue">
+        <div className="flex gap-space-sm flex-col w-fit p-space-lg font-epilogue">
           <Button disabled>
             {' '}
             <Mail />{' '}
@@ -86,7 +86,7 @@ const TempEntryPage = () => {
           </Button>
         </div>
         {/* SMALL SIZE BUTTONS */}
-        <div className="flex gap-4 flex-col w-fit p-8 font-epilogue">
+        <div className="flex gap-space-sm flex-col w-fit p-space-lg font-epilogue">
           <Button size="sm">
             {' '}
             <Mail /> Primary
@@ -104,7 +104,7 @@ const TempEntryPage = () => {
             Title
           </Button>
         </div>
-        <div className="flex gap-4 flex-col w-fit p-8 font-epilogue">
+        <div className="flex gap-space-sm flex-col w-fit p-space-lg font-epilogue">
           <Button size="sm">
             {' '}
             <Mail />{' '}
@@ -119,7 +119,7 @@ const TempEntryPage = () => {
             <Copy />
           </Button>
         </div>
-        <div className="flex gap-4 flex-col w-fit p-8 font-epilogue">
+        <div className="flex gap-space-sm flex-col w-fit p-space-lg font-epilogue">
           <Button size="sm" disabled>
             {' '}
             <Mail /> Disabled
@@ -137,7 +137,7 @@ const TempEntryPage = () => {
             Disabled
           </Button>
         </div>
-        <div className="flex gap-4 flex-col w-fit p-8 font-epilogue">
+        <div className="flex gap-space-sm flex-col w-fit p-space-lg font-epilogue">
           <Button size="sm" disabled>
             {' '}
             <Mail />{' '}
@@ -154,14 +154,14 @@ const TempEntryPage = () => {
         </div>
       </ComponentsContainer>
       <ComponentsContainer title="Inputs">
-        <div className="flex flex-col gap-6 font-epilogue">
+        <div className="flex flex-col gap-space-md font-epilogue">
           <Input Icon={<Search />} placeholder="Ask The Globe w/ Icon" />
           <Input placeholder="Ask The Globe" />
           <Input Icon={<Search />} disabled placeholder="Disabled w/ Icon" />
           <Input disabled placeholder="Disabled" />
         </div>
       </ComponentsContainer>
-      <ComponentsContainer title="Dropdown" className="flex-col gap-2 ">
+      <ComponentsContainer title="Dropdown" className="flex-col gap-space-2xs ">
         <Select
           options={optArr}
           onChange={function (value: string): void {
@@ -188,10 +188,10 @@ type ComponentsContainerProps = {
 export const ComponentsContainer = ({ className = '', children, title }: ComponentsContainerProps) => {
   return (
     <>
-      <h2 className="text-fuchsia-800">{title}</h2>
+      <h2 className="text-media-plum">{title}</h2>
       <br />
       <div
-        className={`flex w-fit rounded border-2 border-fuchsia-800 border-dashed p-6 font-epilogue mb-8 ${className}`}
+        className={`flex w-fit rounded-sm border-2 border-media-plum border-dashed p-space-md font-epilogue mb-space-lg ${className}`}
       >
         {children}
       </div>

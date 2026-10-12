@@ -15,8 +15,8 @@ const ArticleInfo: React.FC<ArticleInfoProps> = ({ width, overlayData }) => {
 
   return (
     <div
-      className={`absolute top-2 left-1/2 transform -translate-x-1/2 z-100 bg-white p-2.5 shadow-lg border border-gray-300 rounded-xs
-           group-hover:grid group-hover:grid-cols-2 group-hover:gap-5 ${
+      className={`absolute top-2 left-1/2 transform -translate-x-1/2 z-100 bg-white p-space-xs shadow-lg border border-gray-300 rounded-sm
+           group-hover:grid group-hover:grid-cols-2 group-hover:gap-space-md ${
              width === 'max' ? 'w-max max-w-screen' : 'w-[125%]'
            }`}
     >
@@ -26,16 +26,16 @@ const ArticleInfo: React.FC<ArticleInfoProps> = ({ width, overlayData }) => {
             absolute top-[-5.5px] left-1/2 transform -translate-x-1/2 rotate-45"
       />
       {/* LEFT SIDE */}
-      <div className="flex flex-col gap-3">
-        <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-space-xs">
+        <div className="flex flex-col gap-space-3xs">
           <h5 className="font-semibold">ID</h5>
           <p className={`${width === 'max' && 'text-nowrap'}`}>{overlayData.id}</p>
         </div>
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-space-3xs">
           <h5 className="font-semibold">Title</h5>
           <p>{overlayData.title}</p>
         </div>
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-space-3xs">
           <h5 className="font-semibold">Author</h5>
           <p>{overlayData.authors?.[0] || ''}</p>
         </div>
@@ -43,14 +43,14 @@ const ArticleInfo: React.FC<ArticleInfoProps> = ({ width, overlayData }) => {
       {/* DIVIDER */}
       <div className="w-px h-[calc(100%-20px)] bg-gray-300 absolute top-2.5 left-1/2 transform -translate-x-px" />
       {/* RIGHT SIDE */}
-      <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-space-xs">
         {overlayData.pubInfo?.priority && (
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-space-3xs">
             <h5 className="font-semibold">Priority</h5>
             <p>{getPriorityString(overlayData.pubInfo.priority)}</p>
           </div>
         )}
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-space-3xs">
           <h5 className="font-semibold">Publication Date</h5>
           <p className={`${width === 'max' && 'text-nowrap'}`}>
             {getPublicationDateString(overlayData?.pubInfo?.publicationTime)}
@@ -58,11 +58,11 @@ const ArticleInfo: React.FC<ArticleInfoProps> = ({ width, overlayData }) => {
         </div>
         {overlayData?.sys?.lockedBy && (
           <>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-space-3xs">
               <h5 className="font-semibold">Locked by</h5>
               <p className={`${width === 'max' && 'text-nowrap'}`}>{overlayData?.sys?.lockedBy.name}</p>
             </div>
-            <div className="flex flex-col gap-1">
+            <div className="flex flex-col gap-space-3xs">
               <h5 className="font-semibold">Lock Date</h5>
               <p className={`${width === 'max' && 'text-nowrap'}`}>
                 {getPublicationDateString(overlayData?.sys?.lockedTime)}

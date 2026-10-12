@@ -67,8 +67,8 @@ const ArticleActions: React.FC<ArticleActionsProps> = ({ data, viewStatus, overl
   return (
     <>
       <div
-        className="absolute -top-2.5 left-1/2 transform -translate-x-1/2 -translate-y-7 z-10 p-4 bg-gray-700 py-1.5 shadow-lg rounded-xs
-    group hidden group-hover:flex group-hover:gap-4"
+        className="absolute -top-2.5 left-1/2 transform -translate-x-1/2 -translate-y-7 z-10 p-space-sm bg-gray-700 py-space-2xs shadow-lg rounded-sm
+    group hidden group-hover:flex group-hover:gap-space-sm"
       >
         <button
           className="text-white cursor-pointer h-[24px] w-[24px] flex items-center justify-center"

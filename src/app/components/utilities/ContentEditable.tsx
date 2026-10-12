@@ -38,10 +38,15 @@ const ContentEditable: React.FC<ContentEditableProps> = ({
   }); // TODO: Replace 'any' with proper PageData<BaseModel> type conversion if available
   const { data: loggedUserInfo } = useLoggedUserInfo();
 
-  const [contentString, setContentString] = useState<string>(ReactDOMServer.renderToStaticMarkup(children));
-  const [previousContentString, setPreviousContentString] = useState<string>(
-    ReactDOMServer.renderToStaticMarkup(children),
-  );
+  const getContentHtml = () => {
+    try {
+      return ReactDOMServer.renderToStaticMarkup(children as React.ReactElement);
+    } catch {
+      return '';
+    }
+  };
+  const [contentString, setContentString] = useState<string>(getContentHtml);
+  const [previousContentString, setPreviousContentString] = useState<string>(getContentHtml);
   const key = new Date().toISOString() + Math.random().toString(36).substring(2, 15);
 
   const showDivButtons = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -113,6 +118,8 @@ const ContentEditable: React.FC<ContentEditableProps> = ({
     }
   };
 
+  const isEditable = !!loggedUserInfo?.inspectItems && viewStatus !== 'LIVE' && !loggedUserInfo?.preview;
+
   return lockedBy ? (
     <div key={key} className="relative group">
       <div className="flex items-center">
@@ -120,7 +127,7 @@ const ContentEditable: React.FC<ContentEditableProps> = ({
         {showLockedByTooltip && loggedUserInfo?.inspectItems && !loggedUserInfo?.preview && (
           <>
             <span
-              className="ml-2 relative"
+              className="ml-space-2xs relative"
               onMouseEnter={e => {
                 const tooltip = e.currentTarget.nextSibling as HTMLDivElement;
                 if (tooltip) tooltip.classList.remove('hidden');
@@ -132,7 +139,7 @@ const ContentEditable: React.FC<ContentEditableProps> = ({
             >
               <LockKeyhole />
             </span>
-            <div className="hidden px-2 py-1 rounded bg-black text-white text-xs whitespace-nowrap shadow-lg z-10">
+            <div className="hidden px-space-2xs py-space-3xs rounded-sm bg-ink text-inverse text-caption whitespace-nowrap shadow-lg z-10">
               Locked by {isString(lockedBy) ? lockedBy : (lockedBy as any).userName}
             </div>
           </>
@@ -144,41 +151,41 @@ const ContentEditable: React.FC<ContentEditableProps> = ({
       <div
         key={key}
         ref={divRef}
-        contentEditable={!!loggedUserInfo?.inspectItems && viewStatus !== 'LIVE' && !loggedUserInfo?.preview}
-        suppressContentEditableWarning={!!loggedUserInfo?.inspectItems}
-        onClick={!!loggedUserInfo?.inspectItems && viewStatus !== 'LIVE' ? showDivButtons : undefined}
-        onBlur={!!loggedUserInfo?.inspectItems && viewStatus !== 'LIVE' ? handleBlur : undefined}
-        className={`relative rounded z-10 ${
-          !!loggedUserInfo?.inspectItems && viewStatus !== 'LIVE'
-            ? 'border-1 border-neutral-light/30 hover:border-primary p-1 cursor-text'
-            : ''
+        contentEditable={isEditable}
+        suppressContentEditableWarning={isEditable}
+        onClick={isEditable ? showDivButtons : undefined}
+        onBlur={isEditable ? handleBlur : undefined}
+        className={`relative rounded-sm z-10 ${
+          isEditable ? 'border-1 border-neutral-light/30 hover:border-primary p-space-3xs cursor-text' : ''
         }`}
-        dangerouslySetInnerHTML={{ __html: contentString }}
+        {...(isEditable ? { dangerouslySetInnerHTML: { __html: contentString } } : {})}
         tabIndex={0}
-      />
+      >
+        {!isEditable && children}
+      </div>
       {loggedUserInfo?.inspectItems && (
         <div className="relative">
           <div
             ref={divButtonsRef}
-            className="bg-white z-20 flex absolute right-0 flex-row items-center justify-end rounded shadow-lg border-gray-500 border-1 ml-auto w-fit hidden"
+            className="bg-canvas z-20 flex absolute right-0 flex-row items-center justify-end rounded-sm shadow-lg border-copy-subtle border-1 ml-auto w-fit hidden"
           >
             <button
               type="button"
-              className="p-1 rounded hover:bg-gray-200 cursor-pointer"
+              className="p-space-3xs rounded-sm hover:bg-surface cursor-pointer"
               onMouseDown={handleSave}
               aria-label="Save"
               tabIndex={-1}
             >
-              <Check className="h-5 w-5 text-gray-700" />
+              <Check className="h-5 w-5 text-copy" />
             </button>
             <button
               type="button"
-              className="p-1 rounded hover:bg-gray-200 cursor-pointer"
+              className="p-space-3xs rounded-sm hover:bg-surface cursor-pointer"
               onMouseDown={handleCancel}
               aria-label="Cancel"
               tabIndex={-1}
             >
-              <X className="h-5 w-5 text-gray-700" />
+              <X className="h-5 w-5 text-copy" />
             </button>
           </div>
         </div>
