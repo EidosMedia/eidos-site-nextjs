@@ -26,15 +26,13 @@ const LoginButton: React.FC<{ webauth?: string }> = ({ webauth }) => {
   return (
     <div className="flex flex-col gap-space-2xs relative">
       <div className="flex gap-space-2xs">
-        <Button variant="default" className="rounded-full px-space-md py-space-md">
-          Subscribe
-        </Button>
+        <Button variant="default">Subscribe</Button>
         {currentWebauth ? (
           <>
             <div className="flex flex-col relative">
               <Button
                 variant="secondary"
-                className="flex items-center gap-space-2xs rounded-full px-space-md py-space-md"
+                className="flex items-center gap-space-2xs"
                 onClick={() => setShowMenu(v => !v)}
               >
                 {webauthData.userName} <CircleUserRound />
@@ -45,7 +43,7 @@ const LoginButton: React.FC<{ webauth?: string }> = ({ webauth }) => {
                     <div className="flex items-center gap-space-2xs p-space-2xs hover:bg-surface rounded-sm">
                       <Button
                         variant="ghost"
-                        className="flex items-center gap-space-3xs hover:bg-surface rounded-full px-space-md py-space-md"
+                        className="flex items-center gap-space-3xs hover:bg-surface"
                         onClick={handleLogout}
                       >
                         Logout <LogOut />
@@ -58,7 +56,7 @@ const LoginButton: React.FC<{ webauth?: string }> = ({ webauth }) => {
           </>
         ) : (
           <Link href="/login" className="flex items-center gap-space-2xs">
-            <Button variant="secondary" className="flex items-center gap-space-2xs rounded-full px-space-md py-space-md">
+            <Button variant="secondary" className="flex items-center gap-space-2xs">
               Login <CircleUserRound />
             </Button>
           </Link>

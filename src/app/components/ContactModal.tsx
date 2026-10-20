@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { X, MailOpen, ChevronDown, CircleHelp } from 'lucide-react';
+import { X, MailOpen, ChevronDown, ChevronRight, CircleHelp } from 'lucide-react';
 import { Button } from './baseComponents/button';
 
 const COUNTRIES = [
@@ -381,7 +381,7 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
                     type="checkbox"
                     className="w-4 h-4 text-primary-dark border-line rounded-sm bg-canvas focus:ring-primary cursor-pointer"
                   />
-                  <label htmlFor="updates" className="ml-space-2xs text-caption text-heading font-medium">
+                  <label htmlFor="updates" className="ml-space-2xs text-caption text-heading font-text">
                     I would like to receive occasional updates on this topic.{' '}
                     <a href="#" className="text-primary hover:underline">
                       Privacy Policy
@@ -392,12 +392,9 @@ export default function ContactModal({ isOpen, onClose }: ContactModalProps) {
             </div>
 
             <div className="pt-space-2xs flex justify-center">
-              <Button
-                type="submit"
-                variant="default"
-                className="rounded-full px-space-5xl py-space-xs bg-primary hover:bg-primary-dark text-inverse font-bold w-full md:w-auto cursor-pointer"
-              >
+              <Button type="submit" className="w-full md:w-auto">
                 Submit
+                <ChevronRight className="link-arrow w-4 h-4" aria-hidden="true" />
               </Button>
             </div>
           </form>

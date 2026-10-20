@@ -142,6 +142,7 @@
   --spacing-space-6xl: 128px;
   --spacing-reading-inset: 208px; /* side inset of the article reading column (xl) */
   --spacing-article-aside: 180px; /* news article meta column (date, share) */
+  --spacing-button: 36px; /* standard button height (navbar search / Book a demo, form submit) */
   --spacing-news-date: 160px; /* news list row: date column (md+) */
   --spacing-news-thumb: 208px; /* news list row: thumbnail width (md+) */
   --spacing-news-thumb-h: 144px; /* news list row: thumbnail height (md+) */

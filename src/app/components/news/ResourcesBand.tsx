@@ -2,6 +2,7 @@ import { BaseModel, PageData } from '@eidosmedia/neon-frontoffice-ts-sdk';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faYoutube, faLinkedin, IconDefinition } from '@fortawesome/free-brands-svg-icons';
 import { ChevronRight } from 'lucide-react';
+import { buttonVariants } from '../baseComponents/button';
 import { ChatIcon, InsightIcon, MailIcon, RESOURCE_LINK_CLASS } from '../icons/ResourceIcons';
 
 const SOCIAL_ICONS: { pattern: RegExp; icon: IconDefinition }[] = [
@@ -21,7 +22,11 @@ type ResourcesBandProps = {
 };
 
 // "Resources" band shown at the bottom of the Newsroom pages and news articles.
-export default async function ResourcesBand({ data, updaterUrl = '/updater/', contactUrl = '/contact-us' }: ResourcesBandProps) {
+export default async function ResourcesBand({
+  data,
+  updaterUrl = '/updater/',
+  contactUrl = '/contact-us',
+}: ResourcesBandProps) {
   const siteName = data.siteData?.siteName || data.siteNode?.name;
   const site = siteName ? await connection.findSite(siteName) : undefined;
   const socialMenu = site?.menus?.Social;
@@ -34,8 +39,10 @@ export default async function ResourcesBand({ data, updaterUrl = '/updater/', co
         <div className="grid grid-cols-1 md:grid-cols-3 gap-space-xl text-left">
           <div>
             <MailIcon />
-            <p className="font-semibold text-heading mb-space-2xs">Press and media inquiries</p>
-            <p className="text-body-sm text-copy-muted mb-space-xs">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed.</p>
+            <p className="font-title text-heading mb-space-2xs">Press and media inquiries</p>
+            <p className="text-body-sm text-copy-muted mb-space-xs">
+              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed.
+            </p>
             <a href="mailto:media@eidosmedia.com" className={RESOURCE_LINK_CLASS}>
               media@eidosmedia.com
             </a>
@@ -43,21 +50,23 @@ export default async function ResourcesBand({ data, updaterUrl = '/updater/', co
 
           <div>
             <InsightIcon />
-            <p className="font-semibold text-heading mb-space-2xs">Insights - The Updater</p>
-            <p className="text-body-sm text-copy-muted mb-space-xs">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed.</p>
+            <p className="font-title text-heading mb-space-2xs">Insights - The Updater</p>
+            <p className="text-body-sm text-copy-muted mb-space-xs">
+              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed.
+            </p>
             <a href={updaterUrl} className={RESOURCE_LINK_CLASS}>
               Read The Updater
-              <ChevronRight className="w-4 h-4" strokeWidth={3} aria-hidden="true" />
+              <ChevronRight className="link-arrow w-4 h-4" aria-hidden="true" />
             </a>
           </div>
 
           <div>
             <ChatIcon />
-            <p className="font-semibold text-heading mb-space-2xs">Stay connected</p>
+            <p className="font-title text-heading mb-space-2xs">Stay connected</p>
             <p className="text-body-sm text-copy-muted mb-space-2xs">Lorem ipsum dolor sit amet.</p>
             <a href={contactUrl} className={`${RESOURCE_LINK_CLASS} flex w-fit mb-space-sm`}>
               Contact us
-              <ChevronRight className="w-4 h-4" strokeWidth={3} aria-hidden="true" />
+              <ChevronRight className="link-arrow w-4 h-4" aria-hidden="true" />
             </a>
             {(socialMenu?.items?.length ?? 0) > 0 && (
               <div className="flex items-center gap-space-xs">
@@ -72,9 +81,9 @@ export default async function ResourcesBand({ data, updaterUrl = '/updater/', co
                       aria-label={item.label}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-9 h-9 rounded-full bg-ink flex items-center justify-center hover:opacity-80 transition-opacity"
+                      className={buttonVariants({ variant: 'dark', size: 'icon' })}
                     >
-                      <FontAwesomeIcon icon={icon} className="text-inverse text-body-sm" />
+                      <FontAwesomeIcon icon={icon} className="text-body-sm" />
                     </a>
                   );
                 })}
