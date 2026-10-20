@@ -10,7 +10,7 @@ const NumberedCards = ({ cards }: { cards: NumberedCard[] }) => (
       >
         <p className="text-body text-copy-muted">{card.number}</p>
         <div className="flex flex-col gap-space-2xs">
-          <p className="text-body font-bold text-heading">{card.title}</p>
+          <p className="text-body font-title text-heading">{card.title}</p>
           <p className="text-body text-copy-muted">{card.text}</p>
         </div>
       </div>

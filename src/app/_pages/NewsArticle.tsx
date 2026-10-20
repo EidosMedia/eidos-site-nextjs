@@ -114,8 +114,8 @@ const NewsArticle = async ({ data }: PageProps) => {
 
   const bodyStyles =
     '[&_.body-large]:text-body [&_.body-large]:text-copy-muted ' +
-    '[&_h2]:text-body [&_h2]:font-bold [&_h2]:text-heading [&_h3]:text-body [&_h3]:font-bold ' +
-    '[&_a]:text-primary [&_a]:font-semibold ' +
+    '[&_h2]:text-body [&_h2]:font-title [&_h2]:text-heading [&_h3]:text-body [&_h3]:font-title ' +
+    '[&_a]:text-primary [&_a]:font-text ' +
     '[&_table]:text-body-sm [&_table]:text-copy-muted [&_td]:align-top';
 
   return (
@@ -140,7 +140,7 @@ const NewsArticle = async ({ data }: PageProps) => {
             <Link
               key={cat.slug}
               href={`${parentUrl}${cat.slug}/`}
-              className="font-semibold text-primary no-underline hover:underline"
+              className="font-text text-primary no-underline hover:underline"
             >
               {cat.label}
             </Link>
@@ -171,7 +171,7 @@ const NewsArticle = async ({ data }: PageProps) => {
 
         {/* Body */}
         <div className={`md:ml-article-indent flex flex-col gap-space-md ${bodyStyles}`}>
-          {summary && <div className="text-body font-bold text-heading">{renderContent(summary, articleData)}</div>}
+          {summary && <div className="text-body font-text text-heading">{renderContent(summary, articleData)}</div>}
           {/* Quotes and "01. Title. Text" tables are rendered as editorial blocks */}
           <ArticleBlocks blocks={bodyBlocks} data={articleData} bodyStyles="flex flex-col gap-space-md" boldQuotes />
         </div>

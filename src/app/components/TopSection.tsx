@@ -24,7 +24,7 @@ const TopSection: React.FC<TopSectionProps> = async ({ data }) => {
                 src={linkedObject.links.system.mainPicture[0].dynamicCropsResourceUrls.Portrait_small}
               />
               <div className="p-space-sm">
-                <h6 className="text-lead font-semibold text-heading">{linkedObject.title}</h6>
+                <h6 className="text-lead font-text text-heading">{linkedObject.title}</h6>
                 <p className="text-body text-copy">{linkedObject.summary}</p>
               </div>
             </Link>

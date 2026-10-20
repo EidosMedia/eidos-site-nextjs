@@ -43,7 +43,7 @@ const Grouphead: React.FC<GroupheadProps> = ({ data, breadcrumbs, theme = 'light
       </div>
       {/* PUBLICATION DATE */}
       {publicationDate && (
-        <p className={`text-body-sm font-medium ${isDark ? 'text-inverse/80' : 'text-copy-muted'}`}>
+        <p className={`text-body-sm font-text ${isDark ? 'text-inverse/80' : 'text-copy-muted'}`}>
           Published on {publicationDate}
         </p>
       )}

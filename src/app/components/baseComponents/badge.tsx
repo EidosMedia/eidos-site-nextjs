@@ -21,7 +21,7 @@ const TONE_CLASSES: Record<BadgeTone, string> = {
 // Pill label (uppercase, tracked): categories, tags, statuses.
 const Badge = ({ tone = 'indigo', className = '', children }: BadgeProps) => (
   <span
-    className={`inline-block eyebrow font-medium rounded-full px-space-sm py-space-2xs ${TONE_CLASSES[tone]} ${className}`}
+    className={`inline-block eyebrow font-text rounded-full px-space-sm py-space-2xs ${TONE_CLASSES[tone]} ${className}`}
   >
     {children}
   </span>

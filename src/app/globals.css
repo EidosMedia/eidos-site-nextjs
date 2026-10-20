@@ -24,8 +24,8 @@
      --------------------------------------------------------------------- */
 
   /* Corporate primary core (nav, primary CTA, text, lines, backgrounds) */
-  --color-blue: #4353f0;
-  --color-blue-dark: #3543cf;
+  --color-blue: #4443ce;
+  --color-blue-dark: #3634a8;
   --color-ink: #1b1d36;
   --color-ink-deep: #12142a;
   --color-copy: #27282b; /* DS "Body": default text color */
@@ -93,15 +93,18 @@
      TYPOGRAPHY — 03. Typographic scale (desktop), Nunito Sans
      Usage: text-h1 | text-h2 | text-h3 | text-lead | text-body | text-body-sm | text-caption | text-label
      --------------------------------------------------------------------- */
-  --text-h1: 3rem; /* 48 / 900 — hero */
+  /* Light weights: titles, eyebrows and tabs (font-title); every other text, nav, links, buttons (font-text) */
+  --font-weight-title: 300;
+  --font-weight-text: 300;
+  --text-h1: 3rem; /* 48 — hero */
   --text-h1--line-height: 1.12;
-  --text-h1--font-weight: 900;
-  --text-h2: 2.1875rem; /* 35 / 800 — section */
+  --text-h1--font-weight: var(--font-weight-title);
+  --text-h2: 2.1875rem; /* 35 — section */
   --text-h2--line-height: 1.2;
-  --text-h2--font-weight: 800;
-  --text-h3: 1.5rem; /* 24 / 800 — card title */
+  --text-h2--font-weight: var(--font-weight-title);
+  --text-h3: 1.5rem; /* 24 — card title */
   --text-h3--line-height: 1.24;
-  --text-h3--font-weight: 800;
+  --text-h3--font-weight: var(--font-weight-title);
   --text-lead: 1.25rem; /* 20 — lead paragraph */
   --text-lead--line-height: 1.44;
   --text-body: 1rem; /* 16 — body */
@@ -113,7 +116,7 @@
   --text-label: 0.75rem; /* 12 — eyebrow / label / badge */
   --text-label--line-height: 1.32;
   --text-label--letter-spacing: 0.08em;
-  --text-label--font-weight: 700;
+  --text-label--font-weight: var(--font-weight-title);
 
   /* ---------------------------------------------------------------------
      SPACING — 4px grid. Use for padding, margin, gap, space-*, inset.
@@ -281,6 +284,23 @@
   border-radius: var(--radius-md) var(--radius-md) var(--radius-md) 0;
 }
 
+/* Arrow after a link or button label: pulled closer to the text (the icon has built-in side padding),
+   nudges right when the link is hovered. The stroke is set here (overrides the icon's strokeWidth prop)
+   so every arrow matches the weight of the link text. Usage: <ChevronRight className="link-arrow w-4 h-4" /> */
+@utility link-arrow {
+  flex-shrink: 0;
+  stroke-width: 1.5;
+  margin-inline-start: calc(var(--spacing-space-3xs) * -1);
+  /* the chevron's empty side padding would add to the button's right padding: pull it back so the
+     label + arrow sit optically centered in pill buttons (no visible effect on plain text links) */
+  margin-inline-end: calc(var(--spacing-space-2xs) * -1);
+  transition: transform 200ms ease-out;
+}
+a:hover > .link-arrow,
+button:hover > .link-arrow {
+  transform: translateX(var(--spacing-space-3xs));
+}
+
 /* Eyebrow / label / badge text (12 / uppercase) */
 @utility eyebrow {
   font-size: var(--text-label);
@@ -327,7 +347,7 @@
     @apply font-nunito-sans tracking-normal;
   }
   body {
-    @apply bg-background text-body text-copy;
+    @apply bg-background text-body font-text text-copy;
   }
   a {
     color: inherit;
@@ -352,15 +372,15 @@
   }
   h4,
   h4 p {
-    @apply font-nunito-sans text-lead font-bold text-heading;
+    @apply font-nunito-sans text-lead font-title text-heading;
   }
   h5,
   h5 p {
-    @apply font-nunito-sans text-body font-bold text-heading;
+    @apply font-nunito-sans text-body font-title text-heading;
   }
   h6,
   h6 p {
-    @apply font-nunito-sans text-body-sm font-bold text-heading;
+    @apply font-nunito-sans text-body-sm font-title text-heading;
   }
 
   .eyebrow-text,

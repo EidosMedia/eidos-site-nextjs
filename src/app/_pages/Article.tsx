@@ -359,7 +359,7 @@ const Article: React.FC<PageProps> = ({ data }) => {
 
           {relatedArticles.length > 0 && (
             <div className="mb-space-5xl">
-              <h2 className="text-lead font-bold text-heading mb-space-md">Related articles</h2>
+              <h2 className="text-lead font-title text-heading mb-space-md">Related articles</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-space-md">
                 {relatedArticles.map(node => (
                   <ArticleCard

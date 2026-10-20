@@ -26,7 +26,7 @@ const bodyStyles =
   'flex flex-col gap-space-md text-body text-copy-muted ' +
   '[&_.body-large]:text-body [&_.body-large]:text-copy-muted [&_p]:m-0 ' +
   '[&_h2]:text-h3 [&_h2]:font-light [&_h2]:text-heading [&_h2]:mt-space-md [&_h2]:scroll-mt-space-lg ' +
-  '[&_h3]:text-lead [&_h3]:font-normal [&_h3]:text-heading [&_h3]:mt-space-sm ' +
+  '[&_h3]:text-lead [&_h3]:font-title [&_h3]:text-heading [&_h3]:mt-space-sm ' +
   '[&_a]:text-primary [&_ul]:list-disc [&_ul]:pl-space-md [&_ol]:list-decimal [&_ol]:pl-space-md';
 
 // Article of the "Insights - The Updater" blog (/updater/...): sticky index on the left, editorial blocks in the body.

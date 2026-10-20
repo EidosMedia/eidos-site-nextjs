@@ -61,4 +61,4 @@ export const ChatIcon = () => (
 
 // Link style of the resource blocks (email, "Contact us", "Read The Updater")
 export const RESOURCE_LINK_CLASS =
-  'inline-flex items-center gap-space-2xs text-body-sm font-semibold text-primary no-underline hover:underline';
+  'inline-flex items-center gap-space-3xs text-body-sm font-text text-primary no-underline hover:underline';

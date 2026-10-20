@@ -18,7 +18,7 @@ const UpdaterSubscribeBand = ({ contactUrl = '/contact-us' }: UpdaterSubscribeBa
 
       <div>
         <MailIcon />
-        <p className="font-semibold text-heading mb-space-2xs">Press and media inquiries</p>
+        <p className="font-title text-heading mb-space-2xs">Press and media inquiries</p>
         <p className="text-body-sm text-copy-muted mb-space-xs">Lorem ipsum dolor sit amet, consectetuer adipiscing.</p>
         <a href="mailto:media@eidosmedia.com" className={RESOURCE_LINK_CLASS}>
           media@eidosmedia.com
@@ -27,11 +27,11 @@ const UpdaterSubscribeBand = ({ contactUrl = '/contact-us' }: UpdaterSubscribeBa
 
       <div>
         <ChatIcon />
-        <p className="font-semibold text-heading mb-space-2xs">Have any feedback or question?</p>
+        <p className="font-title text-heading mb-space-2xs">Have any feedback or question?</p>
         <p className="text-body-sm text-copy-muted mb-space-xs">We&apos;d love to hear from you.</p>
         <a href={contactUrl} className={RESOURCE_LINK_CLASS}>
           Contact us
-          <ChevronRight className="w-4 h-4" strokeWidth={3} aria-hidden="true" />
+          <ChevronRight className="link-arrow w-4 h-4" aria-hidden="true" />
         </a>
       </div>
     </div>

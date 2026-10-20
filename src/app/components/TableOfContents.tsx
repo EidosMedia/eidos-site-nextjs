@@ -87,7 +87,7 @@ export default function TableOfContents({ headings, authorName, readingTime }: P
             {authorName && (
               <span>
                 Written by{' '}
-                <a href="#author-section" className="font-semibold text-primary hover:underline transition-colors">
+                <a href="#author-section" className="font-text text-primary hover:underline transition-colors">
                   {authorName}
                 </a>
               </span>
@@ -104,7 +104,7 @@ export default function TableOfContents({ headings, authorName, readingTime }: P
             {authorName && (
               <p className="text-body-sm text-copy-muted">
                 Written by{' '}
-                <a href="#author-section" className="font-semibold text-primary hover:underline transition-colors">
+                <a href="#author-section" className="font-text text-primary hover:underline transition-colors">
                   {authorName}
                 </a>
               </p>
@@ -127,7 +127,7 @@ export default function TableOfContents({ headings, authorName, readingTime }: P
                 <a
                   href={`#${id}`}
                   className={`text-body-sm transition-colors block hover:text-primary ${
-                    activeId === id ? 'text-primary font-medium' : 'text-copy-muted'
+                    activeId === id ? 'text-primary font-text' : 'text-copy-muted'
                   }`}
                 >
                   {text}

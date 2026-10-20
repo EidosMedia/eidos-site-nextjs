@@ -14,7 +14,7 @@ type PullQuoteProps = {
 const PullQuote = ({ quote, source, data, bold = false }: PullQuoteProps) => (
   <figure className="flex gap-space-xl m-0 py-space-md">
     <div className="flex flex-col items-center gap-space-2xs shrink-0" aria-hidden="true">
-      <span className="text-h1 leading-none font-black text-primary">&rdquo;</span>
+      <span className="text-h1 leading-none font-text text-primary">&rdquo;</span>
       <span className="flex-1 w-1 rounded-full bg-primary" />
     </div>
     <div className="flex flex-col gap-space-md pt-space-sm">

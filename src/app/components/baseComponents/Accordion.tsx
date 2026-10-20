@@ -19,7 +19,7 @@ export default function Accordion({ title, children }: AccordionProps) {
         onClick={() => setIsOpen(!isOpen)}
         aria-expanded={isOpen}
       >
-        <div className="font-semibold text-heading text-body pr-space-sm">{title}</div>
+        <div className="font-title text-heading text-body pr-space-sm">{title}</div>
         <div className="flex-shrink-0 text-primary transition-transform duration-300">
           {isOpen ? <MinusIcon className="w-6 h-6" /> : <PlusIcon className="w-6 h-6" />}
         </div>
