@@ -11,18 +11,22 @@ function Input({
   Icon?: React.ReactNode;
 }) {
   return (
-    <div className="relative h-fit grow-1 font-gabarito">
-      {Icon && <span className="absolute text-neutral-light-2 -translate-y-1/2 top-1/2 left-0 mx-space-2xs">{Icon}</span>}
+    <div className="relative grow-1">
+      {Icon && (
+        <span className="absolute left-space-sm top-1/2 -translate-y-1/2 flex text-copy-muted [&_svg]:size-4">
+          {Icon}
+        </span>
+      )}
       <input
         type={type}
         data-slot="input"
         className={cn(
-          'text-body placeholder:text-neutral-light-2 selection:text-primary-foreground flex w-full min-w-0 rounded-sm border-1 border-neutral-primary bg-transparent py-space-xs transition-[color] outline-none h-8',
-          'hover:border-primary',
-          'focus:ring-1 focus:ring-primary ',
-          'disabled:pointer-events-none disabled:cursor-not-allowed disabled:border-neutral-light-2',
-          Icon ? 'pl-space-xl pr-space-2xs' : 'px-space-2xs',
-          className
+          // Same field style as the other DS inputs (pill, line border, primary focus ring)
+          'flex h-button w-full min-w-0 rounded-full border border-line bg-canvas text-body text-copy placeholder:text-copy-subtle outline-none transition-colors',
+          'hover:border-primary focus:border-primary focus:ring-2 focus:ring-primary-lightest',
+          'disabled:pointer-events-none disabled:opacity-50',
+          Icon ? 'pl-space-xl pr-space-sm' : 'px-space-sm',
+          className,
         )}
         {...props}
       />

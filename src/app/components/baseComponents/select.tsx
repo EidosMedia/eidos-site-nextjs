@@ -62,14 +62,15 @@ function SelectTrigger({
       data-slot="select-trigger"
       data-size={size}
       className={cn(
-        "data-[placeholder]:text-primary [&_svg:not([class*='text-'])] focus:ring-2 focus:ring-primary focus:ring-offset-2 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:bg-input/30 dark:hover:bg-input/50 flex items-center justify-between gap-space-2xs rounded-none border border-neutral-primary px-space-xs py-space-2xs text-body whitespace-nowrap transition-[color] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50 data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-space-2xs [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
-        className
+        // Same field style as the DS text inputs (pill, line border, primary focus ring)
+        "flex h-button w-fit items-center justify-between gap-space-2xs rounded-full border border-line bg-canvas px-space-sm text-body text-copy whitespace-nowrap outline-none transition-colors cursor-pointer hover:border-primary focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary-lightest data-[placeholder]:text-copy-subtle disabled:cursor-not-allowed disabled:opacity-50 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-space-2xs [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        className,
       )}
       {...props}
     >
       {children}
       <SelectPrimitive.Icon asChild>
-        <ChevronDownIcon className="size-4 opacity-50" />
+        <ChevronDownIcon className="size-4 text-copy-muted" />
       </SelectPrimitive.Icon>
     </SelectPrimitive.Trigger>
   );
@@ -86,10 +87,10 @@ function SelectContent({
       <SelectPrimitive.Content
         data-slot="select-content"
         className={cn(
-          'text-popover-foreground bg-canvas relative z-50 max-h-(--radix-select-content-available-height) origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-none border border-neutral-primary',
+          'text-copy bg-canvas relative z-50 max-h-(--radix-select-content-available-height) origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto rounded-lg border border-line shadow-lg p-space-3xs',
           position === 'popper' &&
             'data-[side=bottom]:translate-y-0 data-[side=left]:-translate-x-0 data-[side=right]:translate-x-0 data-[side=top]:-translate-y-0',
-          className
+          className,
         )}
         position={position}
         sideOffset={4}
@@ -100,7 +101,7 @@ function SelectContent({
           className={cn(
             'p-0',
             position === 'popper' &&
-              'h-[var(--radix-select-trigger-height)] min-w-[var(--radix-select-trigger-width)] w-auto '
+              'h-[var(--radix-select-trigger-height)] min-w-[var(--radix-select-trigger-width)] w-auto ',
           )}
         >
           {children}
@@ -126,8 +127,8 @@ function SelectItem({ className, children, ...props }: React.ComponentProps<type
     <SelectPrimitive.Item
       data-slot="select-item"
       className={cn(
-        "focus:bg-primary focus:text-inverse [&_svg:not([class*='text-'])]:text-primary text-body font-semibold relative flex w-full cursor-pointer items-center gap-space-2xs py-space-2xs pr-space-lg pl-space-2xs outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-space-2xs",
-        className
+        "rounded-md focus:bg-surface focus:text-heading data-[state=checked]:text-primary [&_svg:not([class*='text-'])]:text-primary text-body font-text relative flex w-full cursor-pointer items-center gap-space-2xs py-space-2xs px-space-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-space-2xs",
+        className,
       )}
       {...props}
     >

@@ -353,15 +353,15 @@ const SearchResult = ({ data }: { data: Site }) => {
   };
 
   return (
-    <div className="grid items-center text-center max-w-5xl mx-auto">
-      <form className="text-center" onSubmit={handleOnSearchFormSubmit}>
-        <div className="flex items-center justify-center mb-space-sm flex-col md:flex-row gap-space-2xs mt-space-xl">
+    <div className="max-w-page mx-auto px-space-md pt-space-2xl pb-space-4xl">
+      <form onSubmit={handleOnSearchFormSubmit}>
+        <div className="flex flex-col sm:flex-row gap-space-xs">
           <div className="flex grow-1 flex-col gap-space-2xs">
-            <div className="flex gap-space-sm">
+            <div className="flex flex-col sm:flex-row gap-space-xs">
               <CustomSelect
                 placeholder=""
                 options={buildSearchOptions()}
-                className="w-30 font-semibold"
+                className="w-full sm:w-auto"
                 value={selectedSearchOption}
                 onChange={handleSearchOptionChange}
               />
@@ -382,42 +382,38 @@ const SearchResult = ({ data }: { data: Site }) => {
       {
         /* Render search results */
         isLoading ? (
-          <div className="mt-space-lg flex flex-col items-center">
-            <div className="mt-space-sm flex justify-center items-center">
-              <LoaderCircle className="animate-spin" />
-            </div>
-            <p>Loading data...</p>
+          <div className="mt-space-3xl flex flex-col items-center gap-space-xs">
+            <LoaderCircle className="w-6 h-6 animate-spin text-primary" />
+            <p className="text-body-sm text-copy-muted">Loading data...</p>
           </div>
         ) : (
-          <div className="mt-space-lg flex flex-col items-center">
+          <div className="mt-space-2xl flex flex-col items-center gap-space-2xl">
             {result?.answer && (
-              <div className="mt-space-sm flex flex-col items-center bg-primary-lightest p-space-sm rounded-sm">
-                <h4 className="text-h3 mb-space-2xs mt-space-2xs text-heading">The globe overview</h4>
-                <p className="text-left">{result?.answer}</p>
+              <div className="w-full flex flex-col gap-space-xs bg-surface p-space-lg rounded-card">
+                <h2 className="text-h3 text-heading">The globe overview</h2>
+                <p className="text-body text-copy">{result?.answer}</p>
               </div>
             )}
             {result.count > 0 && (
-              <div className="flex w-full justify-between items-center mb-space-sm pl-space-2xs gap-space-2xs">
-                <div>
-                  <h4 className="text-h3 text-left mb-space-2xs mt-space-2xs text-heading">Response references</h4>
-                  <div className="text-left text-semibold font-gabarito">{result.count} items that match with:</div>
-                  <h2 className="text-left">{lastSearchText.current}</h2>
+              <div className="flex w-full flex-col md:flex-row md:justify-between md:items-end gap-space-md">
+                <div className="flex flex-col gap-space-2xs">
+                  <p className="eyebrow text-primary">Response references</p>
+                  <p className="text-body-sm text-copy-muted">{result.count} items that match with:</p>
+                  <h2 className="text-h2 text-heading">{lastSearchText.current}</h2>
                 </div>
-                <div className="flex flex-col gap-space-3xs">
-                  <label className="text-left justify-start whitespace-nowrap font-gabarito font-semibold">
-                    Select time period
-                  </label>
+                <div className="flex flex-col gap-space-2xs">
+                  <label className="text-body-sm text-copy-muted whitespace-nowrap">Select time period</label>
                   <CustomSelect
                     placeholder=""
                     options={options}
                     value={selectedOption}
                     onChange={handleOptionChange}
-                    className="w-60 font-bold"
+                    className="w-full md:w-auto"
                   />
                 </div>
               </div>
             )}
-            <div className="grid grid-cols-1 gap-space-md md:grid-cols-1">
+            <div className="w-full flex flex-col divide-y divide-line">
               {result?.count > 0 ? (
                 result.result.map((result, index) => {
                   return (
@@ -431,14 +427,16 @@ const SearchResult = ({ data }: { data: Site }) => {
                   );
                 })
               ) : (
-                <div className="mt-space-sm flex flex-col items-center">
-                  <Search className="h-8" />
+                <div className="flex flex-col items-center gap-space-sm text-center py-space-2xl">
+                  <span className="flex items-center justify-center w-button h-button rounded-full bg-surface text-primary">
+                    <Search className="w-4 h-4" />
+                  </span>
                   {!authorized && query.get('t') === 'n' ? (
-                    <p>You are not authorized to use AI features</p>
+                    <p className="text-body text-copy-muted">You are not authorized to use AI features</p>
                   ) : (
-                    <div className="text-center">
-                      <h2>No results found</h2>
-                      <p>
+                    <div className="flex flex-col items-center gap-space-xs">
+                      <h2 className="text-h2 text-heading">No results found</h2>
+                      <p className="text-body text-copy-muted max-w-reading">
                         Search content inside {data.root.title}, our AI will give you an overview of what found and the
                         list of results.
                       </p>
@@ -448,15 +446,15 @@ const SearchResult = ({ data }: { data: Site }) => {
               )}
             </div>
             {chat.length > 0 ? (
-              <div className="mt-space-sm text-center">
-                <h3 className="text-h3 mb-space-2xs text-heading">AI Chat History</h3>
+              <div className="w-full">
+                <h3 className="text-h3 mb-space-sm text-heading">AI Chat History</h3>
                 {chat.map((item, index) => (
                   <div key={index} className="mt-space-sm mb-space-sm text-left">
-                    <div className="text-lead mt-space-3xs text-left bg-surface rounded-tl-lg rounded-tr-lg rounded-bl-none rounded-br-lg p-space-sm my-space-2xs inline-block max-w-full">
-                      <p className="font-gabarito">{item.question}</p>
+                    <div className="text-body text-copy text-left bg-surface rounded-tl-lg rounded-tr-lg rounded-bl-none rounded-br-lg p-space-sm my-space-2xs inline-block max-w-full">
+                      <p>{item.question}</p>
                     </div>
-                    <div className="text-lead mt-space-3xs text-right bg-primary-lightest rounded-tl-lg rounded-tr-lg rounded-bl-lg rounded-br-none p-space-sm my-space-2xs inline-block max-w-full ml-space-6xl">
-                      <p className="font-gabarito">{item.answer}</p>
+                    <div className="text-body text-copy text-right bg-primary-lightest rounded-tl-lg rounded-tr-lg rounded-bl-lg rounded-br-none p-space-sm my-space-2xs inline-block max-w-full ml-space-6xl">
+                      <p>{item.answer}</p>
                     </div>
                   </div>
                 ))}
@@ -466,8 +464,8 @@ const SearchResult = ({ data }: { data: Site }) => {
             )}
             {authorized && selectedResults.size > 0 ? (
               <div className="grid w-full gap-space-2xs">
-                <ul className="flex flex-col align-left text-copy list-none">
-                  <h3>Using the set of selected results</h3>
+                <h3 className="text-lead font-title text-heading">Using the set of selected results</h3>
+                <ul className="flex flex-col gap-space-3xs text-body-sm text-copy list-none pl-0 m-0">
                   {Array.from(selectedResults.entries()).map(([key, value], index) => {
                     return (
                       <li key={index} className="search-ask-about-selected-item">
@@ -493,11 +491,9 @@ const SearchResult = ({ data }: { data: Site }) => {
                   </Button>
                 </form>
                 {isAsking ? (
-                  <div className="text-center ml-space-2xs">
-                    <div className="mt-space-sm flex justify-center items-center">
-                      <LoaderCircle className="animate-spin text-primary" />
-                    </div>
-                    <p className="font-epilogue">Asking...</p>
+                  <div className="flex flex-col items-center gap-space-xs">
+                    <LoaderCircle className="w-6 h-6 animate-spin text-primary" />
+                    <p className="text-body-sm text-copy-muted">Asking...</p>
                   </div>
                 ) : (
                   <div className="mt-space-sm"></div>
