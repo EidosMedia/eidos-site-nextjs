@@ -34,7 +34,8 @@ const NewsroomContent: React.FC<NewsroomContentProps> = ({ data }) => {
   );
 
   const featured = items[0];
-  const featuredCategoryLabel = getNewsCategoryLabel(getNodeNewsCategory(featured)) ?? 'Latest';
+  const featuredCategory = getNodeNewsCategory(featured);
+  const featuredCategoryLabel = getNewsCategoryLabel(featuredCategory) ?? 'Latest';
 
   if (items.length === 0) {
     return <div className="container mx-auto flex align-center justify-center py-space-5xl">No articles found.</div>;
@@ -52,7 +53,7 @@ const NewsroomContent: React.FC<NewsroomContentProps> = ({ data }) => {
             <Link
               key={category.slug}
               href={`${sectionUrl}${category.slug}/`}
-              className="font-semibold text-primary no-underline hover:underline"
+              className="font-text text-primary no-underline hover:underline"
             >
               {category.label}
             </Link>
@@ -69,13 +70,22 @@ const NewsroomContent: React.FC<NewsroomContentProps> = ({ data }) => {
           {featured && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-space-xl items-center mb-space-4xl">
               <div>
-                <p className="text-body-sm font-semibold text-primary mb-space-xs">{featuredCategoryLabel}</p>
+                {featuredCategory ? (
+                  <Link
+                    href={`${sectionUrl}${featuredCategory}/`}
+                    className="inline-block text-body-sm font-title text-primary no-underline hover:underline mb-space-xs"
+                  >
+                    {featuredCategoryLabel}
+                  </Link>
+                ) : (
+                  <p className="text-body-sm font-title text-primary mb-space-xs">{featuredCategoryLabel}</p>
+                )}
                 <h2 className="text-h2 text-heading mb-space-md">{featured.title}</h2>
                 <Link
                   href={featured.url}
-                  className="inline-flex items-center gap-space-3xs font-semibold text-primary no-underline hover:underline"
+                  className="inline-flex items-center gap-space-3xs font-text text-primary no-underline hover:underline"
                 >
-                  Read more <ChevronRight className="w-4 h-4" />
+                  Read more <ChevronRight className="link-arrow w-4 h-4" />
                 </Link>
               </div>
               <div className="rounded-media overflow-hidden bg-line aspect-video flex items-center justify-center">
@@ -98,13 +108,13 @@ const NewsroomContent: React.FC<NewsroomContentProps> = ({ data }) => {
               return (
                 <div key={category.slug} className="flex flex-col gap-space-xs">
                   <Icon className="w-6 h-6 text-primary" />
-                  <p className="font-semibold text-heading">{category.label}</p>
+                  <p className="font-title text-heading">{category.label}</p>
                   <p className="text-body-sm text-copy-muted">{category.blurb}</p>
                   <Link
                     href={`${sectionUrl}${category.slug}/`}
-                    className="inline-flex items-center gap-space-3xs text-body-sm font-semibold text-primary no-underline hover:underline"
+                    className="inline-flex items-center gap-space-3xs text-body-sm font-text text-primary no-underline hover:underline"
                   >
-                    See all {category.label.toLowerCase()} <ChevronRight className="w-4 h-4" />
+                    See all {category.label.toLowerCase()} <ChevronRight className="link-arrow w-4 h-4" />
                   </Link>
                 </div>
               );
