@@ -8,7 +8,7 @@ const Byline = ({ byline }: { byline: string }) => {
   const [name, ...role] = byline.split(',');
   return (
     <p className="text-body-sm text-copy">
-      By <span className="font-semibold text-primary">{name.trim()}</span>
+      By <span className="font-text text-primary">{name.trim()}</span>
       {role.length > 0 && `, ${role.join(',').trim()}`}
     </p>
   );
@@ -19,16 +19,26 @@ const UpdaterHero = ({ item }: { item: UpdaterItem }) => {
   const topic = getUpdaterTopic(item.topic);
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 bg-canvas rounded-card shadow-xl overflow-hidden">
-      <div className="flex flex-col justify-center gap-space-sm p-space-2xl order-2 md:order-1">
-        {topic && <p className="text-body-sm font-semibold text-primary">{topic.label}</p>}
+      <div className="flex flex-col justify-center gap-space-sm px-space-sm pt-space-sm pb-space-lg md:p-space-2xl order-2 md:order-1">
+        {topic &&
+          (item.topicUrl ? (
+            <Link
+              href={item.topicUrl}
+              className="self-start text-body-sm font-title text-primary no-underline hover:underline"
+            >
+              {topic.label}
+            </Link>
+          ) : (
+            <p className="text-body-sm font-title text-primary">{topic.label}</p>
+          ))}
         <h2 className="text-h2 text-heading">{item.title}</h2>
         {item.summary && <p className="text-body text-copy-muted">{item.summary}</p>}
         {item.byline && <Byline byline={item.byline} />}
         <Link
           href={item.url}
-          className="mt-space-md inline-flex items-center gap-space-3xs font-semibold text-primary no-underline hover:underline"
+          className="mt-space-md inline-flex items-center gap-space-3xs font-text text-primary no-underline hover:underline"
         >
-          Read more <ChevronRight className="w-4 h-4" />
+          Read more <ChevronRight className="link-arrow w-4 h-4" />
         </Link>
       </div>
       <div className="p-space-sm order-1 md:order-2">

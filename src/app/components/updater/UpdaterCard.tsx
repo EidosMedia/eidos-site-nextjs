@@ -28,7 +28,7 @@ const UpdaterCard = ({ item, variant = 'topic', showTopic = true }: UpdaterCardP
       title={item.title}
       imageUrl={item.imageUrl}
       summary={item.summary}
-      badge={topic && { label: topic.label, tone: topic.tone }}
+      badge={topic && { label: topic.label, tone: topic.tone, href: item.topicUrl }}
       meta={meta || undefined}
     />
   );

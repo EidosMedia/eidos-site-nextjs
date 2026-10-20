@@ -9,6 +9,8 @@ export type UpdaterItem = {
   summary?: string;
   imageUrl?: string;
   topic?: UpdaterTopicSlug;
+  // Topic page, e.g. /updater/technology/
+  topicUrl?: string;
   publicationTime?: string;
   readingMinutes?: number;
   byline?: string;

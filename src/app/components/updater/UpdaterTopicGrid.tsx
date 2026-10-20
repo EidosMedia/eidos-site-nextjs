@@ -12,9 +12,9 @@ const UpdaterTopicGrid = ({ items }: { items: UpdaterItem[] }) => {
 
   return (
     <section className="py-space-3xl">
-      <h2 className="text-h2 text-heading">Latest by topic</h2>
+      <h2 className="text-h2 text-heading text-center">Latest by topic</h2>
 
-      <div className="flex flex-wrap items-center gap-space-2xs mt-space-md mb-space-xl" role="tablist">
+      <div className="flex flex-wrap items-center justify-center gap-space-2xs mt-space-md mb-space-xl" role="tablist">
         <button role="tab" aria-selected={!topic} onClick={() => setTopic(undefined)} className={pillTabClasses(!topic)}>
           All
         </button>

@@ -2,7 +2,6 @@ import Link from 'next/link';
 import PageLayout from '../components/PageLayout';
 import SectionSubnav from '../components/SectionSubnav';
 import UpdaterHero from '../components/updater/UpdaterHero';
-import UpdaterCard from '../components/updater/UpdaterCard';
 import UpdaterCardGrid from '../components/updater/UpdaterCardGrid';
 import UpdaterSubscribeBand from '../components/updater/UpdaterSubscribeBand';
 import { pillTabClasses } from '../components/baseComponents/pillTab';
@@ -17,20 +16,17 @@ type PageProps = {
   topic: UpdaterTopicSlug;
 };
 
-const LATEST_COUNT = 2;
-
 // Updater topic page (e.g. /updater/technology/): latest articles of one topic.
 const UpdaterTopic = async ({ data, topic }: PageProps) => {
   const topicConfig = getUpdaterTopic(topic);
   const updaterUrl = data.model.data.url || '/updater/';
   const items = (await loadUpdaterItems(data)).filter(item => item.topic === topic);
-  const [featured, ...others] = items;
-  const latest = others.slice(0, LATEST_COUNT);
+  const [featured] = items;
   const featuredItem = featured && (await withByline(featured));
 
   return (
     <PageLayout data={data}>
-      {/* Tinted band: breadcrumb, title, topic tabs, featured article, latest two */}
+      {/* Tinted band: breadcrumb, title, topic tabs, featured article */}
       <div className="full-bleed bg-surface pb-space-3xl">
         <div className="max-w-page mx-auto px-space-md">
           <SectionSubnav
@@ -62,14 +58,6 @@ const UpdaterTopic = async ({ data, topic }: PageProps) => {
             </div>
           ) : (
             <p className="text-copy-muted text-center pt-space-2xl">No articles found.</p>
-          )}
-
-          {latest.length > 0 && (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-space-md pt-space-2xl">
-              {latest.map(item => (
-                <UpdaterCard key={item.id} item={item} showTopic={false} />
-              ))}
-            </div>
           )}
         </div>
       </div>

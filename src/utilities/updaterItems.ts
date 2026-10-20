@@ -15,6 +15,7 @@ export const loadUpdaterItems = async (data: PageData<WebpageModel>): Promise<Up
   const ids = section.model.data.children || [];
   const nodes = await withFallbackImages(section.model.nodes, ids);
   const readingTimes = await withReadingTimes(nodes, ids);
+  const updaterUrl = data.model.data.url || '/updater/';
 
   return ids
     .map(id => nodes[id])
@@ -23,17 +24,21 @@ export const loadUpdaterItems = async (data: PageData<WebpageModel>): Promise<Up
       (a, b) =>
         new Date(b.pubInfo?.publicationTime ?? 0).getTime() - new Date(a.pubInfo?.publicationTime ?? 0).getTime(),
     )
-    .map(node => ({
-      id: node.id,
-      url: node.url,
-      title: node.title,
-      summary: node.summary,
-      imageUrl: getNewsImageUrl(node, 'Wide_large') ?? getNewsImageUrl(node, 'Wide_small'),
-      topic: getNodeUpdaterTopic(node),
-      publicationTime: node.pubInfo?.publicationTime,
-      readingMinutes: readingTimes[node.id],
-      byline: (node.attributes as { byline?: string } | undefined)?.byline,
-    }));
+    .map(node => {
+      const topic = getNodeUpdaterTopic(node);
+      return {
+        id: node.id,
+        url: node.url,
+        title: node.title,
+        summary: node.summary,
+        imageUrl: getNewsImageUrl(node, 'Wide_large') ?? getNewsImageUrl(node, 'Wide_small'),
+        topic,
+        topicUrl: topic && `${updaterUrl}${topic}/`,
+        publicationTime: node.pubInfo?.publicationTime,
+        readingMinutes: readingTimes[node.id],
+        byline: (node.attributes as { byline?: string } | undefined)?.byline,
+      };
+    });
 };
 
 // Byline of a featured article: the listing "byline" attribute, otherwise the article authors.
