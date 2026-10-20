@@ -1,13 +1,15 @@
 import Link from 'next/link';
 
 type Props = {
-  variant?: 'default' | 'white';
+  // current: takes the text color of the parent (e.g. text-inverse/60)
+  variant?: 'default' | 'white' | 'current';
   size?: 'small' | 'medium' | 'large';
   className?: string;
 };
 
 export default function Logo({ variant = 'default', size = 'medium', className = '' }: Props) {
-  const color = variant === 'white' ? 'var(--color-inverse)' : 'var(--color-primary)';
+  const color =
+    variant === 'white' ? 'var(--color-inverse)' : variant === 'current' ? 'currentColor' : 'var(--color-primary)';
   const height = size === 'small' ? 10 : size === 'large' ? 40 : 20;
 
   return (

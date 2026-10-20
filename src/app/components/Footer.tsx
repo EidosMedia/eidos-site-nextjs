@@ -58,40 +58,41 @@ export default async function Footer({ data }: { data: Partial<PageData<BaseMode
   const columns: MenuItem[] = [...(menus?.Navbar?.items ?? []), ...(menus?.Footer?.items ?? [])];
   const socialMenu = menus?.Social;
 
+  const footerColumns = columns.map((item, idx) => {
+    const groups = toGroups(item.items);
+    return { key: `${item.ref || item.label}-${idx}`, item, groups, wide: groups.some(group => group.title) };
+  });
+  const renderColumn = ({ key, item, groups, wide }: (typeof footerColumns)[number]) => (
+    <FooterMenu key={key} url={item.url} title={item.label} groups={groups} wide={wide} />
+  );
+
   return (
-    <div
-      className="w-full py-space-2xl bg-primary-dark text-inverse"
-    >
+    <div className="w-full py-space-2xl md:py-space-3xl bg-primary-dark text-inverse">
       <div className="max-w-page mx-auto px-space-md">
         {/* Logo and site name */}
-        <div className="flex flex-col pb-space-md">
+        <div className="flex flex-col pb-space-md md:pb-space-2xl">
           <div className="flex items-center mb-space-sm">
             <Logo variant="white" />
           </div>
-          <p className="text-body-sm font-medium">
+          <p className="text-body-sm font-text">
             Eidosmedia, excellence in headless CMS and Enterprise content publishing systems
           </p>
         </div>
-        {/* All columns in one grid; on desktop one column per menu item (two for those with sub-groups), however many there are */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-none lg:grid-flow-col lg:auto-cols-fr md:gap-space-md">
-          {columns.map((item, idx) => {
-            const groups = toGroups(item.items);
-            return (
-              <FooterMenu
-                key={`${item.ref || item.label}-${idx}`}
-                url={item.url}
-                title={item.label}
-                groups={groups}
-                wide={groups.some(group => group.title)}
-              />
-            );
-          })}
+
+        {/* Mobile: one accordion per column. Desktop: columns with sub-groups first (Industries, Solutions; sub-groups
+            side by side), then the plain link columns, all in one wrapping row: each column is as wide as its content,
+            with one fixed gap between all of them (and between sub-groups), so a plain column joins the first row
+            when it fits (e.g. Technology on wide screens) and the rest wraps */}
+        <div className="flex flex-col md:flex-row md:flex-wrap md:gap-x-space-3xl md:gap-y-space-3xl">
+          {[...footerColumns.filter(column => column.wide), ...footerColumns.filter(column => !column.wide)].map(
+            renderColumn,
+          )}
         </div>
 
         {/* Bottom bar */}
         <div className="mt-space-2xl md:pt-space-md border-t-0 md:border-t border-inverse/20 flex flex-col md:flex-row md:items-center md:justify-between gap-space-sm">
-          <div className="flex items-center gap-space-2xs">
-            <Logo variant="white" size="small" />
+          <div className="flex flex-col items-start sm:flex-row sm:items-center gap-space-2xs">
+            <Logo variant="current" size="small" className="text-inverse/60" />
             <span className="text-caption md:text-body-sm text-inverse/60">
               Copyright &copy; {new Date().getFullYear()} Eidosmedia S.p.A. - P.IVA IT11881420159 - All rights reserved.
             </span>
