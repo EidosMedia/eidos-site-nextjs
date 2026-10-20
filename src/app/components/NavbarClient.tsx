@@ -44,8 +44,8 @@ export default function NavbarClient({ items, pathname }: { items: MenuItem[]; p
 
   const mobileLinkClasses = (isActive: boolean) =>
     clsx(
-      'text-lead font-semibold text-primary no-underline hover:underline underline-offset-2 transition-colors',
-      isActive && 'font-bold',
+      'text-lead font-text text-primary no-underline hover:underline underline-offset-2 transition-colors',
+      isActive && 'font-text',
     );
 
   return (
@@ -60,7 +60,7 @@ export default function NavbarClient({ items, pathname }: { items: MenuItem[]; p
       />
 
       <div
-        className="relative max-w-page mx-auto px-space-md py-space-md md:py-0 flex items-center gap-x-space-sm"
+        className="relative max-w-page mx-auto px-space-md py-space-md xl:py-0 flex items-center gap-x-space-sm"
         onMouseLeave={() => setOpenIndex(null)}
       >
         {/* Nav row content sits above the open panel (z-45), which extends up behind it */}
@@ -69,7 +69,7 @@ export default function NavbarClient({ items, pathname }: { items: MenuItem[]; p
         </div>
 
         {/* Desktop nav items */}
-        <div className="relative z-50 hidden md:flex items-center h-full">
+        <div className="relative z-50 hidden xl:flex items-center h-full">
           <ul className="flex list-none m-0 p-0 h-full">
             {items.map((item, index) => (
               <li
@@ -104,7 +104,7 @@ export default function NavbarClient({ items, pathname }: { items: MenuItem[]; p
                       openIndex !== null
                         ? 'text-copy-muted'
                         : isActiveLink(item)
-                          ? 'font-bold text-heading'
+                          ? 'font-text text-heading'
                           : 'text-heading hover:text-primary',
                     )}
                   >
@@ -123,8 +123,8 @@ export default function NavbarClient({ items, pathname }: { items: MenuItem[]; p
           const hasGroups = item.items.some(column => column.items?.length > 0);
           const linkClasses = (isActive: boolean) =>
             clsx(
-              'text-body font-semibold text-primary no-underline hover:underline underline-offset-2 transition-colors',
-              isActive && 'font-bold',
+              'text-body font-text text-primary no-underline hover:underline underline-offset-2 transition-colors',
+              isActive && 'font-text',
             );
 
           return (
@@ -140,19 +140,23 @@ export default function NavbarClient({ items, pathname }: { items: MenuItem[]; p
               {/* Vertical padding lives on the columns, so the column dividers span the full panel height */}
               <div className="max-w-page mx-auto px-space-md flex gap-x-space-sm">
                 {/* Spacer as wide as the logo plus the nav items' px-space-2xs, so content lines up with the first nav label */}
-                <div className="invisible pointer-events-none shrink-0 flex items-center pr-space-2xs" aria-hidden="true">
+                <div
+                  className="invisible pointer-events-none shrink-0 flex items-center pr-space-2xs"
+                  aria-hidden="true"
+                >
                   <Logo />
                 </div>
 
                 {hasGroups ? (
                   <div className="flex-1 flex gap-x-space-xl divide-x divide-line">
                     {item.items.map((column, colIndex) => (
-                      <div key={`${getItemPath(column)}-${colIndex}`} className={clsx('min-w-50 flex-1 py-space-xl', colIndex > 0 && 'pl-space-xl')}>
+                      <div
+                        key={`${getItemPath(column)}-${colIndex}`}
+                        className={clsx('min-w-50 flex-1 py-space-xl', colIndex > 0 && 'pl-space-xl')}
+                      >
                         {column.items?.length > 0 ? (
                           <>
-                            <p className="eyebrow text-heading mb-space-sm">
-                              {column.label}
-                            </p>
+                            <p className="eyebrow text-heading mb-space-sm">{column.label}</p>
                             <div className="flex flex-col gap-space-xs">
                               {column.items.map((link, linkIndex) => (
                                 <Link
@@ -197,16 +201,16 @@ export default function NavbarClient({ items, pathname }: { items: MenuItem[]; p
           );
         })}
 
-        <div className="hidden md:block flex-1" />
+        <div className="hidden xl:block flex-1" />
 
         {/* Desktop Right Side */}
-        <div className="relative z-50 hidden md:flex items-center gap-space-xs">
+        <div className="relative z-50 hidden xl:flex items-center gap-space-xs">
           <SearchButton iconOnly />
           <GetInTouchButton />
         </div>
 
         {/* Mobile menu button */}
-        <div className="relative z-50 flex-1 md:hidden flex items-center justify-end">
+        <div className="relative z-50 flex-1 xl:hidden flex items-center justify-end">
           <button
             onClick={() => setIsMenuOpen(true)}
             className="w-10 h-10 rounded-lg bg-ink hover:bg-ink-deep flex items-center justify-center border-none cursor-pointer transition-colors shrink-0"
@@ -219,12 +223,12 @@ export default function NavbarClient({ items, pathname }: { items: MenuItem[]; p
 
       {/* Mobile Fullscreen Overlay */}
       {isMenuOpen && (
-        <div className="fixed inset-0 bg-canvas z-[100] flex flex-col md:hidden h-screen w-full">
+        <div className="fixed inset-0 bg-canvas z-[100] flex flex-col xl:hidden h-screen w-full">
           <div className="container mx-auto py-space-md px-space-md flex justify-between items-center shrink-0">
             {mobileActiveItem ? (
               <button
                 onClick={() => setMobileActiveIndex(null)}
-                className="border-none bg-transparent cursor-pointer p-0 flex items-center gap-space-3xs text-lead font-medium text-heading"
+                className="border-none bg-transparent cursor-pointer p-0 flex items-center gap-space-3xs text-lead font-text text-heading"
               >
                 <ChevronLeft className="w-5 h-5" />
                 Back
@@ -250,9 +254,7 @@ export default function NavbarClient({ items, pathname }: { items: MenuItem[]; p
                       <div key={`${getItemPath(column)}-${colIndex}`} className="flex flex-col gap-space-xs">
                         {column.items?.length > 0 ? (
                           <>
-                            <p className="eyebrow text-heading m-0 pb-space-xs border-b border-line">
-                              {column.label}
-                            </p>
+                            <p className="eyebrow text-heading m-0 pb-space-xs border-b border-line">{column.label}</p>
                             {column.items.map((link, linkIndex) => (
                               <Link
                                 key={`${getItemPath(link)}-${linkIndex}`}
@@ -305,7 +307,7 @@ export default function NavbarClient({ items, pathname }: { items: MenuItem[]; p
                           onClick={() => setMobileActiveIndex(index)}
                           className="w-full border-none bg-transparent cursor-pointer p-0 flex items-center justify-between text-left"
                         >
-                          <span className="text-h3 font-normal text-heading">{item.label}</span>
+                          <span className="text-h3 font-text text-heading">{item.label}</span>
                           <ChevronRight className="w-5 h-5 text-primary shrink-0" />
                         </button>
                       ) : (
@@ -314,7 +316,7 @@ export default function NavbarClient({ items, pathname }: { items: MenuItem[]; p
                           onClick={closeMobileMenu}
                           className={clsx(
                             'text-h3 no-underline block',
-                            isActiveLink(item) ? 'font-bold text-heading' : 'font-normal text-heading',
+                            isActiveLink(item) ? 'font-text text-heading' : 'font-text text-heading',
                           )}
                         >
                           {item.label}

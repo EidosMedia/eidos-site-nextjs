@@ -96,6 +96,12 @@
   /* Light weights: titles, eyebrows and tabs (font-title); every other text, nav, links, buttons (font-text) */
   --font-weight-title: 300;
   --font-weight-text: 300;
+  --text-display: 15rem; /* 240 — oversized numerals, e.g. the 404 page (not in DS, derived) */
+  --text-display--line-height: 1;
+  --text-display--font-weight: var(--font-weight-title);
+  --text-display-sm: 8rem; /* 128 — oversized numerals below lg (not in DS, derived) */
+  --text-display-sm--line-height: 1;
+  --text-display-sm--font-weight: var(--font-weight-title);
   --text-h1: 3rem; /* 48 — hero */
   --text-h1--line-height: 1.12;
   --text-h1--font-weight: var(--font-weight-title);

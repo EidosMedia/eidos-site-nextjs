@@ -15,9 +15,9 @@ type SectionSubnavProps = {
 // Sub navigation of the listing sections (Newsroom categories, Updater) and their articles:
 // back link or breadcrumb + find in page.
 const SectionSubnav = ({ label, href, crumbs = [], onSurface = false }: SectionSubnavProps) => (
-  <div className="py-space-sm flex items-center justify-between gap-space-sm text-caption">
+  <div className="py-space-sm flex flex-col items-start sm:flex-row sm:items-center sm:justify-between gap-space-xs sm:gap-space-sm text-caption">
     {crumbs.length === 0 ? (
-      <Link href={href} className="font-semibold text-primary no-underline hover:underline">
+      <Link href={href} className="text-body font-text text-primary no-underline hover:underline">
         {label}
       </Link>
     ) : (
